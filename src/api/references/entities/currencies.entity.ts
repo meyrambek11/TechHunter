@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/api/users/users.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum CurrencyCodes {
     TENGE = 'tg',
@@ -16,4 +17,7 @@ export class Currency{
 
     @Column({ nullable: false })
     code: CurrencyCodes;
+
+    @OneToMany(() => User, (user) => user.currency)
+    users: User[];
 }

@@ -32,6 +32,7 @@ import { ReferencesService } from './references.service';
 		]),
 	],
 	controllers: [ReferencesController],
-	providers: [ReferencesService]
+	providers: [ReferencesService],
+  exports: [ReferencesService]
 })
 export class ReferencesModule {}

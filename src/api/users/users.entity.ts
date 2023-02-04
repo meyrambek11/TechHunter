@@ -1,4 +1,6 @@
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Currency } from '../references/entities/currencies.entity';
+import { Role } from '../roles/roles.entity';
 
 @Entity('users')
 export class User{
@@ -17,8 +19,14 @@ export class User{
     @Column({ nullable: false, default: 0 })
 	balance: number;
 
+	@ManyToOne(() => Currency, (currency) => currency.users)
+	currency: Currency;
+
     @Column({ nullable: false, default: false })
     is_ban: boolean;
+
+	@ManyToOne(() => Role, (role) => role.users)
+	role: Role;
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;

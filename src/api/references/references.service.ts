@@ -4,7 +4,7 @@ import { GetAllQueryDto } from 'src/common/get-all.dto';
 import { Brackets, ILike, Repository } from 'typeorm';
 import { City } from './entities/cities.entity';
 import { Country } from './entities/countries.entity';
-import { Currency } from './entities/currencies.entity';
+import { Currency, CurrencyCodes } from './entities/currencies.entity';
 import { EducationDegree } from './entities/education-degrees.entity';
 import { EducationalInstitutionCategory } from './entities/educational-institution-categories.entity';
 import { EducationalInstitutionList } from './entities/educational-institutions-list.entity';
@@ -138,4 +138,10 @@ export class ReferencesService{
 	async getAllWorkShedules(): Promise<WorkShedule[]>{
 		return await this.workSheduleRepository.find();
 	}
+
+    async getOneCurrency(code: CurrencyCodes): Promise<Currency>{
+        return await this.currencyRepository.findOne({
+            where: {code}
+        })
+    }
 }
