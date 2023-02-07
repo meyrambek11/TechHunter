@@ -1,4 +1,4 @@
-import { ExperienceRange } from 'src/api/teachers/entities/experience-ranges.entity';
+import { ExperienceRange } from 'src/api/references/entities/experience-ranges.entity';
 import { User } from 'src/api/users/users.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 

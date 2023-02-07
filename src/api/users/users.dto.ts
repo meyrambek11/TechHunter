@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { RoleCodes } from "../roles/roles.entity";
 
-export class CreateUserDto{
+export class StoreUserDto{
     @IsString()
     @IsNotEmpty()
     email: string;
@@ -12,7 +12,7 @@ export class CreateUserDto{
 
     @IsString()
     @IsOptional()
-    phone_number: string;
+    phoneNumber: string;
 
     @IsString()
     @IsNotEmpty()

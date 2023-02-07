@@ -3,10 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CurrencyCodes } from '../references/entities/currencies.entity';
 import { ReferencesService } from '../references/references.service';
-import { CreateUserDto } from './users.dto';
 import { User } from './users.entity';
 import { RolesService } from '../roles/roles.service';
 import { RoleCodes } from '../roles/roles.entity';
+import { StoreUserDto } from './users.dto';
+import { TeachersService } from '../teachers/services/teachers.service';
 
 @Injectable()
 export class UsersService{
@@ -14,22 +15,22 @@ export class UsersService{
 		@InjectRepository(User)
 		private userRepository: Repository<User>,
 		private referencesService: ReferencesService,
-		private rolesService: RolesService
+		private rolesService: RolesService,
+		private teachersService: TeachersService
 	){}
     
-	async store(payload: CreateUserDto): Promise<User>{
-		const currency = await this.referencesService.getOneCurrency(CurrencyCodes.TENGE);
-		const role = await this.rolesService.getRoleByCode(payload.role)
-		const newUser = await this.userRepository.save({
+	async store(payload: StoreUserDto): Promise<User>{
+		const currency = await this.referencesService.getCurrencyByCode(CurrencyCodes.TENGE);
+		const role = await this.rolesService.getRoleByCode(payload.role);
+
+		const user = await this.userRepository.save({
 			...payload,
 			currency,
 			role
 		});
-		if(role.code == RoleCodes.TEACHER){
-			
-		}
-
-		return newUser;
+		
+		await this.defineRole(role.code, user.id);
+		return user;
 	}
 
 	async getOneByEmail(email: string): Promise<User>{
@@ -44,5 +45,21 @@ export class UsersService{
 			where: {id},
 			relations: ['role', 'currency']
 		})
+	}
+
+	async defineRole(role: RoleCodes, userId: string): Promise<{success: boolean}>{
+		switch (role) {
+			case RoleCodes.TEACHER:
+				await this.teachersService.store({
+					userId,
+				})
+				break;
+			case RoleCodes.EDUCATIONAL_INSTITUTION:
+				//
+				break;
+			default:
+				break;
+		}
+		return {success: true};
 	}
 }

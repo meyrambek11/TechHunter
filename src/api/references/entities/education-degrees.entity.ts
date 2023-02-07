@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Teacher } from 'src/api/teachers/entities/teachers.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum EducationDegreeCodes {
     BACHELOR = 'bachelor',
@@ -16,4 +17,7 @@ export class EducationDegree{
 
     @Column({ nullable: false })
     code: EducationDegreeCodes;
+
+    @OneToMany(() => Teacher, (teacher) => teacher.educationDegree)
+    teacher: Teacher[];
 }

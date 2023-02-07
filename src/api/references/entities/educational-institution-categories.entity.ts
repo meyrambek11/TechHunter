@@ -1,3 +1,4 @@
+import { Teacher } from 'src/api/teachers/entities/teachers.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EducationalInstitutionList } from './educational-institutions-list.entity';
 import { SubjectCategory } from './subject-categories.entity';
@@ -22,6 +23,9 @@ export class EducationalInstitutionCategory{
 
     @OneToMany(() => EducationalInstitutionList, (educationalInstitutionList) => educationalInstitutionList.educationalInstitutionCategory)
     educationalInstitutionsList: EducationalInstitutionList[];
+
+    @OneToMany(() => Teacher, (teacher) => teacher.educationalInstitutionCategory)
+    teacher: Teacher[];
 
     @OneToMany(() => SubjectCategory, (subjectCategory) => subjectCategory.educationalInstitutionCategory)
     subjectCategories: SubjectCategory[];

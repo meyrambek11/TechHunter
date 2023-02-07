@@ -14,7 +14,7 @@ export class User{
 	password?: string;
 
     @Column({ nullable: true })
-	phone_number: string;
+	phoneNumber: string;
 
     @Column({ nullable: false, default: 0 })
 	balance: number;

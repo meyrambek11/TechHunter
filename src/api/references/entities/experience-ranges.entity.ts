@@ -1,5 +1,6 @@
 import { Currency } from "src/api/references/entities/currencies.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Teacher } from "../../teachers/entities/teachers.entity";
 
 export enum ExperienceRangeCodes{
     WITHOUT_EXPERIENCE = 'without_experience',
@@ -28,6 +29,6 @@ export class ExperienceRange{
     @ManyToOne(() => Currency, (currency) => currency.experienceRanges)
 	currency: Currency;
 
-    // @OneToMany(() => City, (city) => city.country)
-    // cities: City[];
+    @OneToMany(() => Teacher, (teacher) => teacher.experienceRange)
+    teacher: Teacher[];
 }

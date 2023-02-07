@@ -4,7 +4,7 @@ import { LoginDto } from "./auth.dto";
 import * as bcrypt from "bcryptjs";
 import { User } from "../users/users.entity";
 import { JwtService } from "@nestjs/jwt";
-import { CreateUserDto } from "../users/users.dto";
+import { StoreUserDto } from "../users/users.dto";
 
 @Injectable()
 export class AuthService{
@@ -20,19 +20,17 @@ export class AuthService{
         }
     }
 
-    async register(payload: CreateUserDto): Promise<User & {access_token: string}>{
+    async register(payload: StoreUserDto): Promise<User & {access_token: string}>{
         const candidate = await this.userService.getOneByEmail(payload.email);
         if(candidate) throw new HttpException(
             "Пользователь с таким email уже существует",
             HttpStatus.BAD_REQUEST
           );
         const hashPassword = await bcrypt.hash(payload.password, 10);
-        const newUser = await this.userService.store({
+        const user = await this.userService.store({
             ...payload,
             password: hashPassword,
           });
-        console.log(newUser)
-        const user = await this.userService.getOne(newUser.id);
         const accessToken = this.generateToken(user);
         delete user['password'];
         return {

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Teacher } from "./teachers.entity";
 
 export enum TeacherStatusCodes{
     FREE = 'free',
@@ -20,6 +21,6 @@ export class TeacherStatus{
     @Column({nullable: false})
     code: TeacherStatusCodes;
 
-    // @OneToMany(() => City, (city) => city.country)
-    // cities: City[];
+    @OneToMany(() => Teacher, (teacher) => teacher.status)
+    teacher: Teacher[];
 }

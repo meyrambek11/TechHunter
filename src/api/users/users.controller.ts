@@ -1,6 +1,6 @@
 import { Controller, Post } from '@nestjs/common';
 import { Body } from '@nestjs/common/decorators';
-import { CreateUserDto } from './users.dto';
+import { StoreUserDto } from './users.dto';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
 
@@ -9,7 +9,7 @@ export class UsersController{
 	constructor(private usersService: UsersService){}
 
 	@Post()
-	store(@Body() payload: CreateUserDto): Promise<User>{
+	store(@Body() payload: StoreUserDto): Promise<User>{
 		return this.usersService.store(payload);
 	}
 }

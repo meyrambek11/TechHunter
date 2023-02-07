@@ -14,6 +14,7 @@ import { ReferencesController } from './references.controller';
 import { ReferencesService } from './references.service';
 import { WorkSchedule } from './entities/work-schedules.entity';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { ExperienceRange } from './entities/experience-ranges.entity';
 
 @Module({
 
@@ -29,7 +30,8 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 			EducationalInstitutionCategory,
 			EducationalInstitutionList,
 			SubjectCategory,
-			Subject
+			Subject,
+			ExperienceRange
 		]),
 		JwtModule
 	],

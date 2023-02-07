@@ -9,6 +9,7 @@ import { EducationDegree } from './entities/education-degrees.entity';
 import { EducationalInstitutionCategory } from './entities/educational-institution-categories.entity';
 import { EducationalInstitutionList } from './entities/educational-institutions-list.entity';
 import { EmploymentType } from './entities/employment-types.entity';
+import { ExperienceRange, ExperienceRangeCodes } from './entities/experience-ranges.entity';
 import { Language } from './entities/languages.entity';
 import { SubjectCategory } from './entities/subject-categories.entity';
 import { Subject } from './entities/subjects.entity';
@@ -39,7 +40,9 @@ export class ReferencesService{
         @InjectRepository(EmploymentType)
         private employmentTypeRepository: Repository<EmploymentType>,
         @InjectRepository(WorkSchedule)
-        private workSheduleRepository: Repository<WorkSchedule>
+        private workSheduleRepository: Repository<WorkSchedule>,
+		@InjectRepository(ExperienceRange)
+        private experienceRangeRepository: Repository<ExperienceRange>,
 	){}
 
 	async getAllCountries(): Promise<Country[]>{
@@ -140,9 +143,15 @@ export class ReferencesService{
 		return await this.workSheduleRepository.find();
 	}
 
-    async getOneCurrency(code: CurrencyCodes): Promise<Currency>{
+    async getCurrencyByCode(code: CurrencyCodes): Promise<Currency>{
         return await this.currencyRepository.findOne({
             where: {code}
         })
     }
+
+	async getExperienceRangeByCode(code:ExperienceRangeCodes): Promise<ExperienceRange>{
+		return await this.experienceRangeRepository.findOne({
+			where: {code}
+		})
+	}
 }
