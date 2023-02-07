@@ -13,6 +13,7 @@ export class AuthService{
     async login(payload: LoginDto): Promise<User & {access_token: string}>{
         const user = await this.validate(payload);
         const accessToken = this.generateToken(user);
+        delete user['password'];
         return {
             ...user,
             access_token: accessToken
@@ -32,9 +33,8 @@ export class AuthService{
           });
         console.log(newUser)
         const user = await this.userService.getOne(newUser.id);
-        console.log(user)
         const accessToken = this.generateToken(user);
-        console.log(accessToken)
+        delete user['password'];
         return {
             ...user,
             access_token: accessToken
@@ -51,12 +51,11 @@ export class AuthService{
             payload.password,
             user.password
         );
-        if (!passwordEqual) throw new UnauthorizedException({ msg: "Некорректный пароль" });
-        delete user['password'];
+        if (!passwordEqual) throw new UnauthorizedException("Некорректный пароль");
 		return user;
     }
 
     generateToken(user: User): string{
-        return this.jwtService.sign(user);
+        return this.jwtService.sign({...user});
     }
 }

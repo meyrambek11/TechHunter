@@ -8,7 +8,7 @@ import { AuthService } from "./auth.service";
 export class AuthController{
     constructor(private authService: AuthService){}
 
-    @Post('/login')
+    @Post('login')
     login(@Body() payload: LoginDto): Promise<User & {access_token: string}>{
         return this.authService.login(payload);
     }

@@ -14,7 +14,6 @@ async function start(): Promise<void> {
 		app.useGlobalFilters(new HttpExceptionFilter());
 		app.useGlobalInterceptors(new TransformInterceptor());
 		app.useGlobalPipes(new ValidationPipe({ transform: true }));
-    
 		await app.listen(PORT, () =>
 			console.log(`Server started on port = ${PORT}`)
 		);

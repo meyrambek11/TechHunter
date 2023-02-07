@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { RoleCodes } from "../roles/roles.entity";
 
 export class CreateUserDto{
     @IsString()
@@ -15,5 +16,5 @@ export class CreateUserDto{
 
     @IsString()
     @IsNotEmpty()
-    role_id: string;
+    role: RoleCodes;
 }

@@ -12,7 +12,8 @@ import { EmploymentType } from './entities/employment-types.entity';
 import { Language } from './entities/languages.entity';
 import { SubjectCategory } from './entities/subject-categories.entity';
 import { Subject } from './entities/subjects.entity';
-import { WorkShedule } from './entities/work-shedules.entity';
+import { WorkSchedule } from './entities/work-schedules.entity';
+
 
 @Injectable()
 export class ReferencesService{
@@ -37,8 +38,8 @@ export class ReferencesService{
         private educationDegreeRepository: Repository<EducationDegree>,
         @InjectRepository(EmploymentType)
         private employmentTypeRepository: Repository<EmploymentType>,
-        @InjectRepository(WorkShedule)
-        private workSheduleRepository: Repository<WorkShedule>
+        @InjectRepository(WorkSchedule)
+        private workSheduleRepository: Repository<WorkSchedule>
 	){}
 
 	async getAllCountries(): Promise<Country[]>{
@@ -135,7 +136,7 @@ export class ReferencesService{
 		return await this.employmentTypeRepository.find();
 	}
 
-	async getAllWorkShedules(): Promise<WorkShedule[]>{
+	async getAllWorkShedules(): Promise<WorkSchedule[]>{
 		return await this.workSheduleRepository.find();
 	}
 

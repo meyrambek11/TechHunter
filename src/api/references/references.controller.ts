@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
 import { GetAllQueryDto } from 'src/common/get-all.dto';
 import { City } from './entities/cities.entity';
 import { Country } from './entities/countries.entity';
@@ -10,18 +10,21 @@ import { EmploymentType } from './entities/employment-types.entity';
 import { Language } from './entities/languages.entity';
 import { SubjectCategory } from './entities/subject-categories.entity';
 import { Subject } from './entities/subjects.entity';
-import { WorkShedule } from './entities/work-shedules.entity';
 import { ReferencesService } from './references.service';
+import { WorkSchedule } from './entities/work-schedules.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
 
 @Controller('references')
 export class ReferencesController{
 	constructor(private readonly referencesService: ReferencesService){}
 
+    @UseGuards(JwtAuthGuard)
     @Get('countries')
 	getAllCountries(): Promise<Country[]>{
 		return this.referencesService.getAllCountries();
 	}
 
+    @UseGuards(JwtAuthGuard)
     @Get('cities/:country_id')
     getCitiesByCountry(
         @Param('country_id', ParseUUIDPipe) countryId: string, 
@@ -77,7 +80,7 @@ export class ReferencesController{
     }
 
     @Get('work-shedules')
-    getAllWorkShedules(): Promise<WorkShedule[]>{
+    getAllWorkShedules(): Promise<WorkSchedule[]>{
     	return this.referencesService.getAllWorkShedules();
     }
 }

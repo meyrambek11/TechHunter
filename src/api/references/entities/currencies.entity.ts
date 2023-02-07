@@ -1,3 +1,4 @@
+import { ExperienceRange } from 'src/api/teachers/entities/experience-ranges.entity';
 import { User } from 'src/api/users/users.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -20,4 +21,7 @@ export class Currency{
 
     @OneToMany(() => User, (user) => user.currency)
     users: User[];
+
+    @OneToMany(() => ExperienceRange, (experienceRange) => experienceRange.currency)
+    experienceRanges: ExperienceRange[];
 }

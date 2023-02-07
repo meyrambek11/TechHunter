@@ -1,14 +1,14 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum WorkSheduleCodes{
+export enum WorkScheduleCodes{
     FULL_DAY = 'full_day',
     SHIFT = 'shift',
     FLEXIBLE = 'flexible',
     DISTANT = 'distant'
 }
 
-@Entity('work_shedules')
-export class WorkShedule{
+@Entity('work_schedules')
+export class WorkSchedule{
     @PrimaryGeneratedColumn('uuid')
 	id: string;
 
@@ -16,5 +16,5 @@ export class WorkShedule{
     name: string;
 
     @Column({ nullable: false })
-    code: WorkSheduleCodes;
+    code: WorkScheduleCodes;
 }

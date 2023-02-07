@@ -17,4 +17,10 @@ export class RolesService{
             }
         })
     }
+
+    async getRoleByCode(code: RoleCodes): Promise<Role>{
+        return await this.roleRepository.findOne({
+            where: {code}
+        })
+    }
 }
