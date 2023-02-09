@@ -1,37 +1,36 @@
-import { Transform } from "class-transformer";
-import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString } from "class-validator";
-import { User } from "../users/users.entity";
-import { EducationalInstitutionCategory, EducationalInstitutionCategoryCodes } from "../references/entities/educational-institution-categories.entity";
-import { EducationDegree } from "../references/entities/education-degrees.entity";
-import { ExperienceRange } from "../references/entities/experience-ranges.entity";
-import { TeacherStatus } from "./entities/teacher-statuses.entity";
-import { TeacherEducation, TeacherExperience } from "./teachers.type";
+import { Transform } from 'class-transformer';
+import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
+import { EducationalInstitutionCategory } from '../references/entities/educational-institution-categories.entity';
+import { EducationDegree } from '../references/entities/education-degrees.entity';
+import { ExperienceRange } from '../references/entities/experience-ranges.entity';
+import { TeacherStatus } from './entities/teacher-statuses.entity';
+import { TeacherEducation, TeacherExperience } from './teachers.type';
 
 export class StoreTeacherDto{
     @IsString()
     @IsOptional()
-    name?: string
+    name?: string;
 
     @IsString()
     @IsOptional()
-    lastName?: string
+    lastName?: string;
 
     @IsString()
     @IsOptional()
-    middleName?: string
+    middleName?: string;
 
     @Transform(({ value }) => {
-		return new Date(value);
-	})
+    	return new Date(value);
+    })
 	birthdayDate?: string;
 
     @IsArray()
     @IsOptional()
-    experiences?: TeacherExperience[]
+    experiences?: TeacherExperience[];
 
     @IsArray()
     @IsOptional()
-    educations?: TeacherEducation[]
+    educations?: TeacherEducation[];
 
     @IsString()
     @IsOptional()
@@ -60,4 +59,10 @@ export class StoreTeacherDto{
     @IsObject()
     @IsOptional()
     status?: TeacherStatus;
+}
+
+export class TeacherQueryDto{
+    @IsOptional()
+    @IsString()
+    educationalInstitutionCategoryId: string = null;
 }

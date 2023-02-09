@@ -1,6 +1,6 @@
-import { Currency } from "src/api/references/entities/currencies.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Teacher } from "../../teachers/entities/teachers.entity";
+import { Currency } from 'src/api/references/entities/currencies.entity';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Teacher } from '../../teachers/entities/teachers.entity';
 
 export enum ExperienceRangeCodes{
     WITHOUT_EXPERIENCE = 'without_experience',
@@ -17,13 +17,13 @@ export class ExperienceRange{
     @Column({ nullable: false })
     name: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     description: string;
 
-    @Column({nullable: false, default: 0, select: false})
-    price: number
+    @Column({ nullable: false, default: 0, select: false })
+    price: number;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     code: ExperienceRangeCodes;
 
     @ManyToOne(() => Currency, (currency) => currency.experienceRanges)

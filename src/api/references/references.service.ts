@@ -147,15 +147,15 @@ export class ReferencesService{
 		return await this.experienceRangeRepository.find();
 	}
 
-    async getCurrencyByCode(code: CurrencyCodes): Promise<Currency>{
-        return await this.currencyRepository.findOne({
-            where: {code}
-        })
-    }
+	async getCurrencyByCode(code: CurrencyCodes): Promise<Currency>{
+		return await this.currencyRepository.findOne({
+			where: { code }
+		});
+	}
 
 	async getExperienceRangeByCode(code:ExperienceRangeCodes): Promise<ExperienceRange>{
 		return await this.experienceRangeRepository.findOne({
-			where: {code}
-		})
+			where: { code }
+		});
 	}
 }

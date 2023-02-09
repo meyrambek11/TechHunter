@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { City } from './entities/cities.entity';
 import { Country } from './entities/countries.entity';
@@ -13,7 +13,7 @@ import { Subject } from './entities/subjects.entity';
 import { ReferencesController } from './references.controller';
 import { ReferencesService } from './references.service';
 import { WorkSchedule } from './entities/work-schedules.entity';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { ExperienceRange } from './entities/experience-ranges.entity';
 
 @Module({

@@ -1,5 +1,5 @@
-import { Currency } from "src/api/references/entities/currencies.entity";
-import { Role } from "src/api/roles/roles.entity";
+import { Currency } from 'src/api/references/entities/currencies.entity';
+import { Role } from 'src/api/roles/roles.entity';
 
 
 export class UserMetadata {

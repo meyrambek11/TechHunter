@@ -10,7 +10,7 @@ export class User{
     @Column({ nullable: false })
 	email: string;
 
-    @Column({ nullable: true, select: false})
+    @Column({ nullable: true, select: false })
 	password?: string;
 
     @Column({ nullable: true })
@@ -25,7 +25,7 @@ export class User{
     @Column({ nullable: false, default: false })
     isBan: boolean;
 
-	@ManyToOne(() => Role, (role) => role.users, {nullable: false})
+	@ManyToOne(() => Role, (role) => role.users, { nullable: false })
 	role: Role;
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })

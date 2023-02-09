@@ -86,6 +86,6 @@ export class ReferencesController{
 
     @Get('experience-ranges')
     getAllExperienceRanges(): Promise<ExperienceRange[]>{
-        return this.referencesService.getAllExperienceRanges();
+    	return this.referencesService.getAllExperienceRanges();
     }
 }

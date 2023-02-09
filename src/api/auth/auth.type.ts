@@ -1,4 +1,4 @@
-import { User } from "../users/users.entity";
+import { User } from '../users/users.entity';
 
 export interface AuthInterface{
     user: User;

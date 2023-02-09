@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CurrencyCodes } from '../references/entities/currencies.entity';
 import { ReferencesService } from '../references/references.service';
 import { User } from './users.entity';
 import { RolesService } from '../roles/roles.service';
 import { RoleCodes } from '../roles/roles.entity';
-import { StoreUserDto } from './users.dto';
+import { StoreUserDto, UpdateUserDto } from './users.dto';
 import { TeachersService } from '../teachers/services/teachers.service';
 import { UserMetadata } from 'src/common/types/userMetadata';
 import { Teacher } from '../teachers/entities/teachers.entity';
@@ -25,6 +25,14 @@ export class UsersService{
 		const currency = await this.referencesService.getCurrencyByCode(CurrencyCodes.TENGE);
 		const role = await this.rolesService.getRoleByCode(payload.role);
 
+		if(role.code == RoleCodes.ADMIN){
+			const admin = await this.userRepository.findOne({ where: { role: { code: RoleCodes.ADMIN } } });
+			if(admin) throw new HttpException(
+				'Админ уже существует',
+				HttpStatus.BAD_REQUEST
+			  );
+		}
+
 		const user = await this.userRepository.save({
 			...payload,
 			currency,
@@ -37,36 +45,62 @@ export class UsersService{
 
 	async getOneByEmail(email: string): Promise<User>{
 		return await this.userRepository.findOne({
-			where: {email},
+			where: { email },
 			relations: ['role', 'currency'],
 			select: ['id', 'email', 'password', 'phoneNumber', 'balance', 'isBan']
-		})
+		});
 	}
 
 	async getOne(id: string): Promise<User>{
 		return await this.userRepository.findOne({
-			where: {id},
+			where: { id },
 			relations: ['role', 'currency']
-		})
+		});
 	}
 
 	async defineRoleAndStore(role: RoleCodes, userId: string): Promise<{success: boolean}>{
 		switch (role) {
-			case RoleCodes.TEACHER:
-				await this.teachersService.store(userId)
-				break;
-			case RoleCodes.EDUCATIONAL_INSTITUTION:
-				//
-				break;
-			default:
-				break;
+		case RoleCodes.TEACHER:
+			await this.teachersService.store(userId);
+			break;
+		case RoleCodes.EDUCATIONAL_INSTITUTION:
+			//
+			break;
+		default:
+			break;
 		}
-		return {success: true};
+		return { success: true };
 	}
 
 	async getAccount(user: UserMetadata): Promise<User & {account: Teacher | null}>{
 		const accountUser = await this.getOne(user.id);
 		const account: Teacher | null = user.role.code == RoleCodes.TEACHER ? await this.teachersService.getOneByUser(user.id) : null;
-		return {...accountUser, account}
+		return { ...accountUser, account };
+	}
+
+	async update(user: UserMetadata, payload: UpdateUserDto): Promise<User>{
+		if(payload.email){
+			const userWithNewEmail = await this.userRepository.findOne({
+				where: {
+					id: Not(user.id),
+					email: payload.email
+				}
+			});
+
+			if(userWithNewEmail) throw new HttpException(
+				'Пользователь с таким email уже существует',
+				HttpStatus.BAD_REQUEST
+			  );
+		}
+		await this.userRepository.update(user.id, { ...payload });
+		return this.getAccount(user);
+	}
+
+	async topUpBalance(user: UserMetadata, balance: number): Promise<User>{
+		await this.userRepository.createQueryBuilder()
+			.update(User)
+			.set({ balance: () => `balance + ${balance}` })
+			.execute();
+		return this.getOne(user.id);
 	}
 }
