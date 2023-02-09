@@ -40,7 +40,7 @@ export class ReferencesService{
         @InjectRepository(EmploymentType)
         private employmentTypeRepository: Repository<EmploymentType>,
         @InjectRepository(WorkSchedule)
-        private workSheduleRepository: Repository<WorkSchedule>,
+        private workScheduleRepository: Repository<WorkSchedule>,
 		@InjectRepository(ExperienceRange)
         private experienceRangeRepository: Repository<ExperienceRange>,
 	){}
@@ -139,8 +139,12 @@ export class ReferencesService{
 		return await this.employmentTypeRepository.find();
 	}
 
-	async getAllWorkShedules(): Promise<WorkSchedule[]>{
-		return await this.workSheduleRepository.find();
+	async getAllWorkSchedules(): Promise<WorkSchedule[]>{
+		return await this.workScheduleRepository.find();
+	}
+
+	async getAllExperienceRanges(): Promise<ExperienceRange[]>{
+		return await this.experienceRangeRepository.find();
 	}
 
     async getCurrencyByCode(code: CurrencyCodes): Promise<Currency>{

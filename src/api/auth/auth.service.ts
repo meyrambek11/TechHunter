@@ -5,22 +5,22 @@ import * as bcrypt from "bcryptjs";
 import { User } from "../users/users.entity";
 import { JwtService } from "@nestjs/jwt";
 import { StoreUserDto } from "../users/users.dto";
+import { AuthInterface } from "./auth.type";
 
 @Injectable()
 export class AuthService{
     constructor(private userService: UsersService,  private jwtService: JwtService){}
 
-    async login(payload: LoginDto): Promise<User & {access_token: string}>{
+    async login(payload: LoginDto): Promise<AuthInterface>{
         const user = await this.validate(payload);
         const accessToken = this.generateToken(user);
-        delete user['password'];
         return {
-            ...user,
-            access_token: accessToken
+            user,
+            accessToken
         }
     }
 
-    async register(payload: StoreUserDto): Promise<User & {access_token: string}>{
+    async register(payload: StoreUserDto): Promise<AuthInterface>{
         const candidate = await this.userService.getOneByEmail(payload.email);
         if(candidate) throw new HttpException(
             "Пользователь с таким email уже существует",
@@ -31,11 +31,11 @@ export class AuthService{
             ...payload,
             password: hashPassword,
           });
+        delete user.password
         const accessToken = this.generateToken(user);
-        delete user['password'];
         return {
-            ...user,
-            access_token: accessToken
+            user,
+            accessToken
         }
     }
 
@@ -50,6 +50,7 @@ export class AuthService{
             user.password
         );
         if (!passwordEqual) throw new UnauthorizedException("Некорректный пароль");
+        delete user['password'];
 		return user;
     }
 

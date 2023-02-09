@@ -8,6 +8,8 @@ import { RolesService } from '../roles/roles.service';
 import { RoleCodes } from '../roles/roles.entity';
 import { StoreUserDto } from './users.dto';
 import { TeachersService } from '../teachers/services/teachers.service';
+import { UserMetadata } from 'src/common/types/userMetadata';
+import { Teacher } from '../teachers/entities/teachers.entity';
 
 @Injectable()
 export class UsersService{
@@ -29,14 +31,15 @@ export class UsersService{
 			role
 		});
 		
-		await this.defineRole(role.code, user.id);
+		await this.defineRoleAndStore(role.code, user.id);
 		return user;
 	}
 
 	async getOneByEmail(email: string): Promise<User>{
 		return await this.userRepository.findOne({
 			where: {email},
-			relations: ['role', 'currency']
+			relations: ['role', 'currency'],
+			select: ['id', 'email', 'password', 'phoneNumber', 'balance', 'isBan']
 		})
 	}
 
@@ -47,12 +50,10 @@ export class UsersService{
 		})
 	}
 
-	async defineRole(role: RoleCodes, userId: string): Promise<{success: boolean}>{
+	async defineRoleAndStore(role: RoleCodes, userId: string): Promise<{success: boolean}>{
 		switch (role) {
 			case RoleCodes.TEACHER:
-				await this.teachersService.store({
-					userId,
-				})
+				await this.teachersService.store(userId)
 				break;
 			case RoleCodes.EDUCATIONAL_INSTITUTION:
 				//
@@ -61,5 +62,11 @@ export class UsersService{
 				break;
 		}
 		return {success: true};
+	}
+
+	async getAccount(user: UserMetadata): Promise<User & {account: Teacher | null}>{
+		const accountUser = await this.getOne(user.id);
+		const account: Teacher | null = user.role.code == RoleCodes.TEACHER ? await this.teachersService.getOneByUser(user.id) : null;
+		return {...accountUser, account}
 	}
 }

@@ -10,7 +10,7 @@ export class User{
     @Column({ nullable: false })
 	email: string;
 
-    @Column({ nullable: true})
+    @Column({ nullable: true, select: false})
 	password?: string;
 
     @Column({ nullable: true })
@@ -23,7 +23,7 @@ export class User{
 	currency: Currency;
 
     @Column({ nullable: false, default: false })
-    is_ban: boolean;
+    isBan: boolean;
 
 	@ManyToOne(() => Role, (role) => role.users, {nullable: false})
 	role: Role;

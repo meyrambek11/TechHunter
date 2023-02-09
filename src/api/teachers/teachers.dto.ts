@@ -1,6 +1,11 @@
 import { Transform } from "class-transformer";
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString } from "class-validator";
 import { User } from "../users/users.entity";
+import { EducationalInstitutionCategory, EducationalInstitutionCategoryCodes } from "../references/entities/educational-institution-categories.entity";
+import { EducationDegree } from "../references/entities/education-degrees.entity";
+import { ExperienceRange } from "../references/entities/experience-ranges.entity";
+import { TeacherStatus } from "./entities/teacher-statuses.entity";
+import { TeacherEducation, TeacherExperience } from "./teachers.type";
 
 export class StoreTeacherDto{
     @IsString()
@@ -22,15 +27,11 @@ export class StoreTeacherDto{
 
     @IsArray()
     @IsOptional()
-    experiences?: object[]
+    experiences?: TeacherExperience[]
 
     @IsArray()
     @IsOptional()
-    educations?: object[]
-
-    @IsNotEmpty()
-    @IsString()
-    userId: string;
+    educations?: TeacherEducation[]
 
     @IsString()
     @IsOptional()
@@ -44,19 +45,19 @@ export class StoreTeacherDto{
     @IsOptional()
     aboutYourself?: string;
 
-    @IsString()
+    @IsObject()
     @IsOptional()
-    educationalInstitutionCategoryId?: string;
+    educationalInstitutionCategory?: EducationalInstitutionCategory;
 
-    @IsString()
+    @IsObject()
     @IsOptional()
-    educationDegreeId?: string;
+    educationDegree?: EducationDegree;
 
-    @IsString()
+    @IsObject()
     @IsOptional()
-    experienceRangeId?: string;
+    experienceRange?: ExperienceRange;
 
-    @IsString()
+    @IsObject()
     @IsOptional()
-    statusId?: string;
+    status?: TeacherStatus;
 }

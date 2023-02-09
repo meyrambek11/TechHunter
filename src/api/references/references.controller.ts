@@ -13,18 +13,18 @@ import { Subject } from './entities/subjects.entity';
 import { ReferencesService } from './references.service';
 import { WorkSchedule } from './entities/work-schedules.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
+import { ExperienceRange } from './entities/experience-ranges.entity';
 
+@UseGuards(JwtAuthGuard)
 @Controller('references')
 export class ReferencesController{
 	constructor(private readonly referencesService: ReferencesService){}
 
-    @UseGuards(JwtAuthGuard)
     @Get('countries')
 	getAllCountries(): Promise<Country[]>{
 		return this.referencesService.getAllCountries();
 	}
 
-    @UseGuards(JwtAuthGuard)
     @Get('cities/:country_id')
     getCitiesByCountry(
         @Param('country_id', ParseUUIDPipe) countryId: string, 
@@ -80,7 +80,12 @@ export class ReferencesController{
     }
 
     @Get('work-shedules')
-    getAllWorkShedules(): Promise<WorkSchedule[]>{
-    	return this.referencesService.getAllWorkShedules();
+    getAllWorkSchedules(): Promise<WorkSchedule[]>{
+    	return this.referencesService.getAllWorkSchedules();
+    }
+
+    @Get('experience-ranges')
+    getAllExperienceRanges(): Promise<ExperienceRange[]>{
+        return this.referencesService.getAllExperienceRanges();
     }
 }
