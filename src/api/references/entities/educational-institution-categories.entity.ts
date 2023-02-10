@@ -24,6 +24,9 @@ export class EducationalInstitutionCategory{
     @OneToMany(() => EducationalInstitutionList, (educationalInstitutionList) => educationalInstitutionList.educationalInstitutionCategory)
     educationalInstitutionsList: EducationalInstitutionList[];
 
+    @OneToMany(() => EducationalInstitutionList, (educationalInstitution) => educationalInstitution.educationalInstitutionCategory)
+    educationalInstitutions: EducationalInstitutionList[];
+
     @OneToMany(() => Teacher, (teacher) => teacher.educationalInstitutionCategory)
     teacher: Teacher[];
 

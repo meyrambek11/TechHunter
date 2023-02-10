@@ -13,6 +13,6 @@ export class City{
     @ManyToOne(() => Country, (country) => country.cities)
 	country: Country;
 
-    @OneToMany(() => EducationalInstitutionList, (educationalInstitutionList) => educationalInstitutionList.city)
-    educationalInstitutionsList: EducationalInstitutionList[];
+    @OneToMany(() => EducationalInstitutionList, (educationalInstitution) => educationalInstitution.city)
+    educationalInstitutions: EducationalInstitutionList[];
 }

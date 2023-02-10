@@ -15,4 +15,7 @@ export class Country{
 
     @OneToMany(() => EducationalInstitutionList, (educationalInstitutionList) => educationalInstitutionList.country)
     educationalInstitutionsList: EducationalInstitutionList[];
+
+    @OneToMany(() => EducationalInstitutionList, (educationalInstitution) => educationalInstitution.country)
+    educationalInstitutions: EducationalInstitutionList[];
 }
