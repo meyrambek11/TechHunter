@@ -7,6 +7,7 @@ import { UserMetadata } from 'src/common/types/userMetadata';
 import { UserInfo } from 'src/common/decorators/user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
 import { Teacher } from '../teachers/entities/teachers.entity';
+import { EducationalInstitution } from '../educational-institutions/entities/educational-institutions.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -16,7 +17,7 @@ export class UsersController{
 	@Get('account')
 	getAccount(
 		@UserInfo() user: UserMetadata,
-	): Promise<User & {account: Teacher | null}>{
+	): Promise<User & {account: Teacher | EducationalInstitution}>{
 		return this.usersService.getAccount(user);
 	}
 

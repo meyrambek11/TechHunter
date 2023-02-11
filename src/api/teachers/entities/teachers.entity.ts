@@ -1,7 +1,8 @@
+import { EducationalInstitutionOrder } from 'src/api/educational-institutions/entities/educational-institution-orders.entity';
 import { EducationDegree } from 'src/api/references/entities/education-degrees.entity';
 import { EducationalInstitutionCategory } from 'src/api/references/entities/educational-institution-categories.entity';
 import { User } from 'src/api/users/users.entity';
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExperienceRange } from '../../references/entities/experience-ranges.entity';
 import { TeacherStatus } from './teacher-statuses.entity';
 
@@ -54,6 +55,9 @@ export class Teacher{
 
     @ManyToOne(() => ExperienceRange, (experienceRange) => experienceRange.teacher, { nullable: false })
 	experienceRange: ExperienceRange;
+
+    @OneToMany(() => EducationalInstitutionOrder, (educationalInstitutionOrder) => educationalInstitutionOrder.teacher)
+    educationalInstitutionOrders: EducationalInstitutionOrder[];
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;

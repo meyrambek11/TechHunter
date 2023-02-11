@@ -10,6 +10,8 @@ import { StoreUserDto, UpdateUserDto } from './users.dto';
 import { TeachersService } from '../teachers/services/teachers.service';
 import { UserMetadata } from 'src/common/types/userMetadata';
 import { Teacher } from '../teachers/entities/teachers.entity';
+import { EducationalInstitutionsService } from '../educational-institutions/educational-institutions.service';
+import { EducationalInstitution } from '../educational-institutions/entities/educational-institutions.entity';
 
 @Injectable()
 export class UsersService{
@@ -18,7 +20,8 @@ export class UsersService{
 		private userRepository: Repository<User>,
 		private referencesService: ReferencesService,
 		private rolesService: RolesService,
-		private teachersService: TeachersService
+		private teachersService: TeachersService,
+		private educationalInstitutionsService: EducationalInstitutionsService
 	){}
     
 	async store(payload: StoreUserDto): Promise<User>{
@@ -60,21 +63,31 @@ export class UsersService{
 
 	async defineRoleAndStore(role: RoleCodes, userId: string): Promise<{success: boolean}>{
 		switch (role) {
-		case RoleCodes.TEACHER:
-			await this.teachersService.store(userId);
-			break;
-		case RoleCodes.EDUCATIONAL_INSTITUTION:
-			//
-			break;
-		default:
-			break;
+			case RoleCodes.TEACHER:
+				await this.teachersService.store(userId);
+				break;
+			case RoleCodes.EDUCATIONAL_INSTITUTION:
+				await this.educationalInstitutionsService.store(userId);
+				break;
+			default:
+				break;
 		}
 		return { success: true };
 	}
 
-	async getAccount(user: UserMetadata): Promise<User & {account: Teacher | null}>{
+	async getAccount(user: UserMetadata): Promise<User & {account: Teacher | EducationalInstitution}>{
 		const accountUser = await this.getOne(user.id);
-		const account: Teacher | null = user.role.code == RoleCodes.TEACHER ? await this.teachersService.getOneByUser(user.id) : null;
+		let account: Teacher | EducationalInstitution = null;
+		switch (accountUser.role.code) {
+			case RoleCodes.TEACHER:
+				account = await this.teachersService.getOneByUser(user.id);
+				break;
+			case RoleCodes.EDUCATIONAL_INSTITUTION:
+				account = await this.educationalInstitutionsService.getOneByUser(user.id);
+				break;
+			default:
+				break;
+		}
 		return { ...accountUser, account };
 	}
 

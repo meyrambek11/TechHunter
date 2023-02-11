@@ -2,9 +2,10 @@ import { City } from "src/api/references/entities/cities.entity";
 import { Country } from "src/api/references/entities/countries.entity";
 import { EducationalInstitutionCategory } from "src/api/references/entities/educational-institution-categories.entity";
 import { User } from "src/api/users/users.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { EducationalInstitutionOrder } from "./educational-institution-orders.entity";
 
-@Entity('educational_institution')
+@Entity('educational_institutions')
 export class EducationalInstitution{
     @PrimaryGeneratedColumn('uuid')
 	id: string;
@@ -18,10 +19,10 @@ export class EducationalInstitution{
     @Column({ nullable: true })
     name: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: true })
     address: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: true })
     aboutYourself: string;
 
     @ManyToOne(() => EducationalInstitutionCategory, (educationalInstitutionCategory) => educationalInstitutionCategory.educationalInstitutions)
@@ -32,6 +33,9 @@ export class EducationalInstitution{
 
     @ManyToOne(() => City, (city) => city.educationalInstitutions)
 	city: City;
+
+    @OneToMany(() => EducationalInstitutionOrder, (educationalInstitutionOrder) => educationalInstitutionOrder.educationalInstitution)
+    educationalInstitutionOrders: EducationalInstitutionOrder[];
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;
