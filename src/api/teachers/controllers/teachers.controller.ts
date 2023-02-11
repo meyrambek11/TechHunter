@@ -1,9 +1,9 @@
-import { Controller, Get, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Get, ParseUUIDPipe, Patch, UseGuards } from '@nestjs/common';
 import { TeachersService } from '../services/teachers.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guards';
 import { UserInfo } from 'src/common/decorators/user.decorator';
 import { UserMetadata } from 'src/common/types/userMetadata';
-import { Body, Query } from '@nestjs/common/decorators';
+import { Body, Param, Query } from '@nestjs/common/decorators';
 import { StoreTeacherDto, TeacherQueryDto } from '../teachers.dto';
 import { Teacher } from '../entities/teachers.entity';
 
@@ -21,4 +21,12 @@ export class TeachersController{
     update(@UserInfo() user: UserMetadata, @Body() payload: StoreTeacherDto): Promise<Teacher>{
     	return this.teachersService.update(user, payload);
     }
+
+	@Get(':id')
+	getOne(
+		@UserInfo() user: UserMetadata, 
+		@Param('id', ParseUUIDPipe) id: string,
+	){
+		return this.teachersService.getOne(id, user);
+	}
 }

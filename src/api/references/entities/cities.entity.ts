@@ -2,6 +2,7 @@ import { EducationalInstitution } from 'src/api/educational-institutions/entitie
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Country } from './countries.entity';
 import { EducationalInstitutionList } from './educational-institutions-list.entity';
+import { Teacher } from 'src/api/teachers/entities/teachers.entity';
 
 @Entity('cities')
 export class City{
@@ -19,4 +20,7 @@ export class City{
 
     @OneToMany(() => EducationalInstitution, (educationalInstitution) => educationalInstitution.city)
     educationalInstitutions: EducationalInstitution[];
+
+    @OneToMany(() => Teacher, (teacher) => teacher.city)
+    teachers: Teacher[];
 }

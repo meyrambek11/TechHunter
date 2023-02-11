@@ -28,3 +28,17 @@ export class StoreEducationalInstitutionDto{
     @IsObject()
     city: City
 }
+
+export class EducationalInstitutionQueryDto{
+    @IsOptional()
+    @IsString()
+    educationalInstitutionCategoryIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    countryIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    cityIds: string = null;
+}

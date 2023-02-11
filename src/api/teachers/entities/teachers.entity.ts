@@ -2,9 +2,13 @@ import { EducationalInstitutionOrder } from 'src/api/educational-institutions/en
 import { EducationDegree } from 'src/api/references/entities/education-degrees.entity';
 import { EducationalInstitutionCategory } from 'src/api/references/entities/educational-institution-categories.entity';
 import { User } from 'src/api/users/users.entity';
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExperienceRange } from '../../references/entities/experience-ranges.entity';
 import { TeacherStatus } from './teacher-statuses.entity';
+import { Country } from 'src/api/references/entities/countries.entity';
+import { City } from 'src/api/references/entities/cities.entity';
+import { Subject } from 'src/api/references/entities/subjects.entity';
+import { TeacherBasket } from 'src/api/teachers-basket/entities/teacher-baskets.entity';
 
 @Entity('teachers')
 export class Teacher{
@@ -58,6 +62,29 @@ export class Teacher{
 
     @OneToMany(() => EducationalInstitutionOrder, (educationalInstitutionOrder) => educationalInstitutionOrder.teacher)
     educationalInstitutionOrders: EducationalInstitutionOrder[];
+
+    @OneToMany(() => TeacherBasket, (teacherBasket) => teacherBasket.teacher)
+    teacherBaskets: TeacherBasket[];
+
+    @ManyToOne(() => Country, (country) => country.teachers)
+	country: Country;
+
+    @ManyToOne(() => City, (city) => city.teachers)
+	city: City;
+
+    @ManyToMany(() => Subject)
+	@JoinTable({
+		name: 'teacher_subject_relations',
+		joinColumn: {
+			name: 'teacher_id',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'subject_id',
+			referencedColumnName: 'id',
+		},
+	})
+	subjects: Subject[];
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;

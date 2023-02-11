@@ -7,6 +7,7 @@ import { TeachersService } from './services/teachers.service';
 import { TeacherStatusesService } from './services/teacher-statuses.service';
 import { ReferencesModule } from '../references/references.module';
 import { TeacherStatusesController } from './controllers/teacher-statuses.controller';
+import { EducationalInstitutionsModule } from '../educational-institutions/educational-institutions.module';
 
 @Module({
 	controllers: [TeachersController, TeacherStatusesController],
@@ -16,7 +17,8 @@ import { TeacherStatusesController } from './controllers/teacher-statuses.contro
 			Teacher,
 			TeacherStatus,
 		]),
-		ReferencesModule
+		ReferencesModule,
+		EducationalInstitutionsModule
 	],
 	exports: [TeachersService]
 })

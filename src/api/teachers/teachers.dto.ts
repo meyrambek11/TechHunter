@@ -5,6 +5,9 @@ import { EducationDegree } from '../references/entities/education-degrees.entity
 import { ExperienceRange } from '../references/entities/experience-ranges.entity';
 import { TeacherStatus } from './entities/teacher-statuses.entity';
 import { TeacherEducation, TeacherExperience } from './teachers.type';
+import { Country } from '../references/entities/countries.entity';
+import { City } from '../references/entities/cities.entity';
+import { Subject } from '../references/entities/subjects.entity';
 
 export class StoreTeacherDto{
     @IsString()
@@ -59,10 +62,42 @@ export class StoreTeacherDto{
     @IsObject()
     @IsOptional()
     status?: TeacherStatus;
+
+    @IsObject()
+    @IsOptional()
+    country?: Country;
+
+    @IsObject()
+    @IsOptional()
+    city?: City;
+
+    @IsArray()
+    @IsOptional()
+    subjects?: Subject[]
 }
 
 export class TeacherQueryDto{
     @IsOptional()
     @IsString()
-    educationalInstitutionCategoryId: string = null;
+    educationalInstitutionCategoryIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    statusIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    educationDegreeIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    experienceRangeIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    countryIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    cityIds: string = null;
 }

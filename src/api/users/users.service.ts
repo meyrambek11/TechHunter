@@ -10,7 +10,7 @@ import { StoreUserDto, UpdateUserDto } from './users.dto';
 import { TeachersService } from '../teachers/services/teachers.service';
 import { UserMetadata } from 'src/common/types/userMetadata';
 import { Teacher } from '../teachers/entities/teachers.entity';
-import { EducationalInstitutionsService } from '../educational-institutions/educational-institutions.service';
+import { EducationalInstitutionsService } from '../educational-institutions/services/educational-institutions.service';
 import { EducationalInstitution } from '../educational-institutions/entities/educational-institutions.entity';
 
 @Injectable()
