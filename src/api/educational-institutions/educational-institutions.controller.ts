@@ -5,11 +5,15 @@ import { EducationalInstitutionQueryDto, StoreEducationalInstitutionDto } from "
 import { EducationalInstitutionsService } from "./services/educational-institutions.service";
 import { EducationalInstitution } from "./entities/educational-institutions.entity";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guards";
+import { EducationalInstitutionOrdersService } from "./services/educational-institution-orders.service";
 
 @UseGuards(JwtAuthGuard)
 @Controller('educational-institution')
 export class EducationalInstitutionsController{
-    constructor(private educationalInstitutionsService: EducationalInstitutionsService){}
+    constructor(
+        private educationalInstitutionsService: EducationalInstitutionsService,
+        private educationalInstitutionOrderService: EducationalInstitutionOrdersService
+    ){}
 
     @Patch()
     update(
@@ -25,7 +29,10 @@ export class EducationalInstitutionsController{
     }
 
     @Get('bought-teachers')
-    getBoughtTeachers(@UserInfo() user: UserMetadata){
-        
+    getBoughtTeachers(
+        @UserInfo() user: UserMetadata,
+        @Body('teacherId') teacherId: string
+    ){
+        return this.educationalInstitutionOrderService.store(user, teacherId);
     }
 }

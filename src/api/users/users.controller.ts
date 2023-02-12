@@ -29,11 +29,11 @@ export class UsersController{
 		return this.usersService.update(user, payload);
 	}
 
-	@Patch('balance')
+	@Patch('increase-balance')
 	topUpBalance(
 		@UserInfo() user: UserMetadata,
 		@Body('balance') balance: number
 	): Promise<User>{
-		return this.usersService.topUpBalance(user, balance);
+		return this.usersService.increaseBalance(user, balance);
 	}
 }

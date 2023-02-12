@@ -109,11 +109,35 @@ export class UsersService{
 		return this.getAccount(user);
 	}
 
-	async topUpBalance(user: UserMetadata, balance: number): Promise<User>{
+	async increaseBalance(user: UserMetadata, balance: number): Promise<User>{
 		await this.userRepository.createQueryBuilder()
 			.update(User)
 			.set({ balance: () => `balance + ${balance}` })
 			.execute();
 		return this.getOne(user.id);
+	}
+
+	async decreaseBalance(user: UserMetadata, balance: number): Promise<User>{
+		await this.userRepository.createQueryBuilder()
+			.update(User)
+			.set({ balance: () => `balance - ${balance}` })
+			.execute();
+		return this.getOne(user.id);
+	}
+
+	async increaseBalanceOfAdmin(balance: number): Promise<User>{
+		const admin = await this.userRepository.findOne({
+			where: {
+				role: {
+					code: RoleCodes.ADMIN
+				}
+			}
+		})
+
+		await this.userRepository.createQueryBuilder()
+			.update(User)
+			.set({ balance: () => `balance + ${balance}` })
+			.execute();
+		return admin
 	}
 }

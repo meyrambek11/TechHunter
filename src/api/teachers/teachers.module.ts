@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TeacherStatus } from './entities/teacher-statuses.entity';
 import { Teacher } from './entities/teachers.entity';
@@ -18,7 +18,7 @@ import { EducationalInstitutionsModule } from '../educational-institutions/educa
 			TeacherStatus,
 		]),
 		ReferencesModule,
-		EducationalInstitutionsModule
+		forwardRef(() => EducationalInstitutionsModule),
 	],
 	exports: [TeachersService]
 })

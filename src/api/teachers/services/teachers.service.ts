@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExperienceRangeCodes } from 'src/api/references/entities/experience-ranges.entity';
 import { ReferencesService } from 'src/api/references/references.service';
@@ -18,6 +18,7 @@ export class TeachersService{
         private teacherRepository: Repository<Teacher>,
         private teacherStatusService: TeacherStatusesService,
         private referencesService: ReferencesService,
+		@Inject(forwardRef(() => EducationalInstitutionOrdersService))
 		private educationalInstitutionOrderService: EducationalInstitutionOrdersService
 	){}
 
@@ -83,6 +84,13 @@ export class TeachersService{
 			info
 		}
 		
+	}
+
+	async getOneForExternal(id: string){
+		return await this.teacherRepository.findOne({
+			where: {id},
+			relations: ["experienceRange", "user"]
+		})
 	}
 
 	async update(user: UserMetadata, payload: StoreTeacherDto): Promise<Teacher>{
