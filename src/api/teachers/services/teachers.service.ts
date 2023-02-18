@@ -46,7 +46,7 @@ export class TeachersService{
 			.leftJoinAndSelect('teacher.experienceRange', 'experienceRange')
 			.leftJoinAndSelect('teacher.educationDegree', 'educationDegree')
 			.leftJoinAndSelect('teacher.country', 'country')
-			.leftJoinAndSelect('teacher.city', 'city')
+			.leftJoinAndSelect('teacher.city', 'city');
 		
 		teachersQuery = this.filteringReceivedData(teachersQuery, query);
 		
@@ -68,7 +68,7 @@ export class TeachersService{
 		const info: Partial<User> = {
 			email: teacher.user.email,
 			phoneNumber: teacher.user.phoneNumber
-		}
+		};
 		delete teacher.user;
 		
 		const order = await this.educationalInstitutionOrderService.getOneByTeacherAndEducationInstitution(id, user.id);
@@ -82,15 +82,15 @@ export class TeachersService{
 		return {
 			...teacher,
 			info
-		}
+		};
 		
 	}
 
-	async getOneForExternal(id: string){
+	async getOneForExternal(id: string): Promise<Teacher>{
 		return await this.teacherRepository.findOne({
-			where: {id},
-			relations: ["experienceRange", "user"]
-		})
+			where: { id },
+			relations: ['experienceRange']
+		});
 	}
 
 	async update(user: UserMetadata, payload: StoreTeacherDto): Promise<Teacher>{

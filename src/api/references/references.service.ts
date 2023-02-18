@@ -161,9 +161,9 @@ export class ReferencesService{
 
 	async getExperienceRangeWithPrice(code: ExperienceRangeCodes) : Promise<ExperienceRange>{
 		return await this.experienceRangeRepository.findOne({
-			where: {code},
-			select: ["id", "name", "code", "price"],
-			relations: ["currency"]
-		})
+			where: { code },
+			select: ['id', 'name', 'code', 'price'],
+			relations: ['currency']
+		});
 	}
 }

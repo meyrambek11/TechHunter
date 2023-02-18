@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { TeacherBasket } from "./teacher-baskets.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { TeacherBasket } from './teacher-baskets.entity';
 
 export enum TeacherBasketTypeCodes{
     DOCUMENT = 'document',

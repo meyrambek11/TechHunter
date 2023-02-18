@@ -23,10 +23,10 @@ export class TeachersController{
     }
 
 	@Get(':id')
-	getOne(
+    getOne(
 		@UserInfo() user: UserMetadata, 
 		@Param('id', ParseUUIDPipe) id: string,
-	){
-		return this.teachersService.getOne(id, user);
-	}
+    ): Promise<Teacher & {info: Partial<Teacher>}>{
+    	return this.teachersService.getOne(id, user);
+    }
 }

@@ -8,11 +8,12 @@ import { EducationalInstitutionOrdersService } from './services/educational-inst
 import { TeachersModule } from '../teachers/teachers.module';
 import { ReferencesModule } from '../references/references.module';
 import { UsersModule } from '../users/users.module';
+import { AdminModule } from '../admin/admin.module';
 
 @Module({
-    controllers: [EducationalInstitutionsController],
-    providers: [EducationalInstitutionsService, EducationalInstitutionOrdersService],
-    imports: [
+	controllers: [EducationalInstitutionsController],
+	providers: [EducationalInstitutionsService, EducationalInstitutionOrdersService],
+	imports: [
 		TypeOrmModule.forFeature([
 			EducationalInstitution,
 			EducationalInstitutionOrder,
@@ -20,7 +21,8 @@ import { UsersModule } from '../users/users.module';
 		forwardRef(() => TeachersModule),
 		ReferencesModule,
 		forwardRef(() => UsersModule),
+		AdminModule
 	],
-    exports: [EducationalInstitutionsService, EducationalInstitutionOrdersService]
+	exports: [EducationalInstitutionsService, EducationalInstitutionOrdersService]
 })
 export class EducationalInstitutionsModule {}

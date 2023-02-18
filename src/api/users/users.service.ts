@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Not, Repository } from 'typeorm';
 import { CurrencyCodes } from '../references/entities/currencies.entity';
 import { ReferencesService } from '../references/references.service';
 import { User } from './users.entity';
@@ -21,7 +21,8 @@ export class UsersService{
 		private referencesService: ReferencesService,
 		private rolesService: RolesService,
 		private teachersService: TeachersService,
-		private educationalInstitutionsService: EducationalInstitutionsService
+		private educationalInstitutionsService: EducationalInstitutionsService,
+		@InjectDataSource() private dataSource: DataSource
 	){}
     
 	async store(payload: StoreUserDto): Promise<User>{
@@ -63,14 +64,14 @@ export class UsersService{
 
 	async defineRoleAndStore(role: RoleCodes, userId: string): Promise<{success: boolean}>{
 		switch (role) {
-			case RoleCodes.TEACHER:
-				await this.teachersService.store(userId);
-				break;
-			case RoleCodes.EDUCATIONAL_INSTITUTION:
-				await this.educationalInstitutionsService.store(userId);
-				break;
-			default:
-				break;
+		case RoleCodes.TEACHER:
+			await this.teachersService.store(userId);
+			break;
+		case RoleCodes.EDUCATIONAL_INSTITUTION:
+			await this.educationalInstitutionsService.store(userId);
+			break;
+		default:
+			break;
 		}
 		return { success: true };
 	}
@@ -79,14 +80,14 @@ export class UsersService{
 		const accountUser = await this.getOne(user.id);
 		let account: Teacher | EducationalInstitution = null;
 		switch (accountUser.role.code) {
-			case RoleCodes.TEACHER:
-				account = await this.teachersService.getOneByUser(user.id);
-				break;
-			case RoleCodes.EDUCATIONAL_INSTITUTION:
-				account = await this.educationalInstitutionsService.getOneByUser(user.id);
-				break;
-			default:
-				break;
+		case RoleCodes.TEACHER:
+			account = await this.teachersService.getOneByUser(user.id);
+			break;
+		case RoleCodes.EDUCATIONAL_INSTITUTION:
+			account = await this.educationalInstitutionsService.getOneByUser(user.id);
+			break;
+		default:
+			break;
 		}
 		return { ...accountUser, account };
 	}
@@ -110,34 +111,18 @@ export class UsersService{
 	}
 
 	async increaseBalance(user: UserMetadata, balance: number): Promise<User>{
-		await this.userRepository.createQueryBuilder()
-			.update(User)
-			.set({ balance: () => `balance + ${balance}` })
-			.execute();
+		const userAccount = await this.getOne(user.id);
+		await this.dataSource.transaction(async manager => {
+			await manager.save(User, { id: user.id, balance: (userAccount.balance + balance) });
+		});
 		return this.getOne(user.id);
 	}
 
 	async decreaseBalance(user: UserMetadata, balance: number): Promise<User>{
-		await this.userRepository.createQueryBuilder()
-			.update(User)
-			.set({ balance: () => `balance - ${balance}` })
-			.execute();
+		const userAccount = await this.getOne(user.id);
+		await this.dataSource.transaction(async manager => {
+			await manager.save(User, { id: user.id, balance: (userAccount.balance - balance) });
+		});
 		return this.getOne(user.id);
-	}
-
-	async increaseBalanceOfAdmin(balance: number): Promise<User>{
-		const admin = await this.userRepository.findOne({
-			where: {
-				role: {
-					code: RoleCodes.ADMIN
-				}
-			}
-		})
-
-		await this.userRepository.createQueryBuilder()
-			.update(User)
-			.set({ balance: () => `balance + ${balance}` })
-			.execute();
-		return admin
 	}
 }

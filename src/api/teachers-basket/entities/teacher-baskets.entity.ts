@@ -1,13 +1,13 @@
-import { Teacher } from "src/api/teachers/entities/teachers.entity";
-import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { TeacherBasketType } from "./teacher-basket-types.entity";
+import { Teacher } from 'src/api/teachers/entities/teachers.entity';
+import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { TeacherBasketType } from './teacher-basket-types.entity';
 
 @Entity('teacher_baskets')
 export class TeacherBasket{
     @PrimaryGeneratedColumn('uuid')
 	id: string;
 
-    @Column({nullable: false, default: false})
+    @Column({ nullable: false, default: false })
     isBuy: boolean;
 
     @ManyToOne(() => Teacher, (teacher) => teacher.teacherBaskets)

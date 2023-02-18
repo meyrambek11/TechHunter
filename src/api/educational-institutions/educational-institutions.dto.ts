@@ -1,7 +1,7 @@
-import { IsObject, IsOptional, IsString } from "class-validator";
-import { City } from "../references/entities/cities.entity";
-import { Country } from "../references/entities/countries.entity";
-import { EducationalInstitutionCategory } from "../references/entities/educational-institution-categories.entity";
+import { IsObject, IsOptional, IsString } from 'class-validator';
+import { City } from '../references/entities/cities.entity';
+import { Country } from '../references/entities/countries.entity';
+import { EducationalInstitutionCategory } from '../references/entities/educational-institution-categories.entity';
 
 export class StoreEducationalInstitutionDto{
     @IsOptional()
@@ -26,7 +26,7 @@ export class StoreEducationalInstitutionDto{
 
     @IsOptional()
     @IsObject()
-    city: City
+    city: City;
 }
 
 export class EducationalInstitutionQueryDto{

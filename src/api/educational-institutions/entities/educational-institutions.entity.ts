@@ -1,9 +1,9 @@
-import { City } from "src/api/references/entities/cities.entity";
-import { Country } from "src/api/references/entities/countries.entity";
-import { EducationalInstitutionCategory } from "src/api/references/entities/educational-institution-categories.entity";
-import { User } from "src/api/users/users.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { EducationalInstitutionOrder } from "./educational-institution-orders.entity";
+import { City } from 'src/api/references/entities/cities.entity';
+import { Country } from 'src/api/references/entities/countries.entity';
+import { EducationalInstitutionCategory } from 'src/api/references/entities/educational-institution-categories.entity';
+import { User } from 'src/api/users/users.entity';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { EducationalInstitutionOrder } from './educational-institution-orders.entity';
 
 @Entity('educational_institutions')
 export class EducationalInstitution{

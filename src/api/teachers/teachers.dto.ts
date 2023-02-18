@@ -73,7 +73,7 @@ export class StoreTeacherDto{
 
     @IsArray()
     @IsOptional()
-    subjects?: Subject[]
+    subjects?: Subject[];
 }
 
 export class TeacherQueryDto{
