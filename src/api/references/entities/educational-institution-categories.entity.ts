@@ -2,6 +2,7 @@ import { Teacher } from 'src/api/teachers/entities/teachers.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EducationalInstitutionList } from './educational-institutions-list.entity';
 import { SubjectCategory } from './subject-categories.entity';
+import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
 
 export enum EducationalInstitutionCategoryCodes{
     UNIVERSITY = 'university',
@@ -28,7 +29,10 @@ export class EducationalInstitutionCategory{
     educationalInstitutions: EducationalInstitutionList[];
 
     @OneToMany(() => Teacher, (teacher) => teacher.educationalInstitutionCategory)
-    teacher: Teacher[];
+    teachers: Teacher[];
+
+    @OneToMany(() => TeacherDocument, (teacherDocument) => teacherDocument.educationalInstitutionCategory)
+    teacherDocuments: TeacherDocument[];
 
     @OneToMany(() => SubjectCategory, (subjectCategory) => subjectCategory.educationalInstitutionCategory)
     subjectCategories: SubjectCategory[];

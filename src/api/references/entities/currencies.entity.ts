@@ -1,5 +1,6 @@
 import { EducationalInstitutionOrder } from 'src/api/educational-institutions/entities/educational-institution-orders.entity';
 import { ExperienceRange } from 'src/api/references/entities/experience-ranges.entity';
+import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
 import { User } from 'src/api/users/users.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -28,4 +29,7 @@ export class Currency{
 
     @OneToMany(() => ExperienceRange, (experienceRange) => experienceRange.currency)
     experienceRanges: ExperienceRange[];
+
+    @OneToMany(() => TeacherDocument, (teacherDocument) => teacherDocument.currency)
+    teacherDocuments: TeacherDocument[];
 }

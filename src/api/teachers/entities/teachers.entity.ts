@@ -9,6 +9,7 @@ import { Country } from 'src/api/references/entities/countries.entity';
 import { City } from 'src/api/references/entities/cities.entity';
 import { Subject } from 'src/api/references/entities/subjects.entity';
 import { TeacherBasket } from 'src/api/teachers-basket/entities/teacher-baskets.entity';
+import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
 
 @Entity('teachers')
 export class Teacher{
@@ -48,7 +49,7 @@ export class Teacher{
     @Column({ nullable: true, type: 'text' })
     aboutYourself: string;
 
-    @ManyToOne(() => EducationalInstitutionCategory, (educationalInstitutionCategory) => educationalInstitutionCategory.teacher)
+    @ManyToOne(() => EducationalInstitutionCategory, (educationalInstitutionCategory) => educationalInstitutionCategory.teachers)
 	educationalInstitutionCategory: EducationalInstitutionCategory;
 
     @ManyToOne(() => TeacherStatus, (teacherStatus) => teacherStatus.teacher, { nullable: false })
@@ -71,6 +72,9 @@ export class Teacher{
 
     @ManyToOne(() => City, (city) => city.teachers)
 	city: City;
+
+    @OneToMany(() => TeacherDocument, (document) => document.teacher)
+    documents: TeacherDocument[];
 
     @ManyToMany(() => Subject)
 	@JoinTable({

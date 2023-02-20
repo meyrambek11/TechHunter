@@ -76,14 +76,14 @@ export class EducationalInstitutionsService{
 		const educationalInstitution = await this.getOneByUser(user.id);
 		if(!educationalInstitution)
 			throw new HttpException(
-				`Educational institution with user id: ${user.id} does not exist in stock`,
+				`Educational institution with user id: ${user.id} does not exist`,
 				HttpStatus.BAD_REQUEST
 			);
 
 		const teacher = await this.teachersService.getOneForExternal(teacherId);
 		if(!teacher)
 			throw new HttpException(
-				`Teacher with user id: ${user.id} does not exist in stock`,
+				`Teacher with user id: ${user.id} does not exist`,
 				HttpStatus.BAD_REQUEST
 			);
         
@@ -94,16 +94,15 @@ export class EducationalInstitutionsService{
 		console.log(`Educational institution with name: ${educationalInstitution.name} want to buy teacher with id: ${teacher.id}`);
 		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(user, experienceRange.price, experienceRange.currency))) return { success: false };
 
-		await this.dataSource.transaction(async manager => {
-			await manager.save(EducationalInstitutionOrder, {
-				price: experienceRange.price,
-				currency: experienceRange.currency,
-				teacher,
-				educationalInstitution
-			});
-			await this.usersService.decreaseBalance(user, experienceRange.price);
-			await this.adminService.increaseBalanceOfAdmin(experienceRange.price);
-		});
+		await this.educationalInstitutionOrdersService.store({
+			teacher,
+			educationalInstitution,
+			price: experienceRange.price,
+			currency: experienceRange.currency
+		})
+		await this.usersService.decreaseBalance(user, experienceRange.price);
+		await this.adminService.increaseBalanceOfAdmin(experienceRange.price);
+		
 		console.log(`Educational institution with name: ${educationalInstitution.name} buy teacher with id: ${teacher.id} for price: ${experienceRange.price}`);
 
 		return { success: true };

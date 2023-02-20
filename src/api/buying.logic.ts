@@ -5,5 +5,4 @@ export class BuyingLogicClass{
 	checkHasUserEnoughMoney(user: UserMetadata, price: number, currency: Currency): boolean{
 		return user.balance > price;
 	}
-
 }

@@ -9,9 +9,9 @@ import { ReferencesModule } from './api/references/references.module';
 import { TeachersModule } from './api/teachers/teachers.module';
 import { TeachersBasketModule } from './api/teachers-basket/teachers-basket.module';
 import { EducationalInstitutionsModule } from './api/educational-institutions/educational-institutions.module';
-import { TeacherDocumentsModule } from './api/teacher-documents/teacher-documents.module';
 import { VacanciesModule } from './api/vacancies/vacancies.module';
 import { AdminModule } from './api/admin/admin.module';
+import { TeacherDocumentsModule } from './api/teacher-documents/teacher-documents.module';
 
 @Module({
 	imports: [

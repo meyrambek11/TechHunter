@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum LanguageCodes {
     KAZAKH = 'kz',
@@ -16,4 +17,7 @@ export class Language{
 
     @Column({ nullable: false })
     code: LanguageCodes;
+
+    @OneToMany(() => TeacherDocument, (teacherDocument) => teacherDocument.language)
+    teacherDocuments: TeacherDocument[];
 }
