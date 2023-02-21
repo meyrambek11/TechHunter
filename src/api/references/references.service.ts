@@ -14,6 +14,8 @@ import { Language } from './entities/languages.entity';
 import { SubjectCategory } from './entities/subject-categories.entity';
 import { Subject } from './entities/subjects.entity';
 import { WorkSchedule } from './entities/work-schedules.entity';
+import { DocumentType } from '../teacher-documents/entities/document-types.entity';
+import { DocumentCategory } from '../teacher-documents/entities/document-categories.entity';
 
 
 @Injectable()
@@ -43,6 +45,10 @@ export class ReferencesService{
         private workScheduleRepository: Repository<WorkSchedule>,
 		@InjectRepository(ExperienceRange)
         private experienceRangeRepository: Repository<ExperienceRange>,
+		@InjectRepository(DocumentType)
+        private documentTypeRepository: Repository<DocumentType>,
+		@InjectRepository(DocumentCategory)
+        private documentCategoryRepository: Repository<DocumentCategory>,
 	){}
 
 	async getAllCountries(): Promise<Country[]>{
@@ -165,5 +171,20 @@ export class ReferencesService{
 			select: ['id', 'name', 'code', 'price'],
 			relations: ['currency']
 		});
+	}
+
+	async getExperiencesRangeWithPrice(): Promise<ExperienceRange[]>{
+		return await this.experienceRangeRepository.find({
+			select: ['id', 'name', 'code', 'price'],
+			relations: ['currency']
+		});
+	}
+
+	async getAllDocumentTypes(): Promise<DocumentType[]>{
+		return await this.documentTypeRepository.find()
+	}
+
+	async getAllDocumentCategories(): Promise<DocumentCategory[]>{
+		return await this.documentCategoryRepository.find();
 	}
 }

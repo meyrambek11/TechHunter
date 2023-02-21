@@ -15,6 +15,8 @@ import { ReferencesService } from './references.service';
 import { WorkSchedule } from './entities/work-schedules.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ExperienceRange } from './entities/experience-ranges.entity';
+import { DocumentType } from '../teacher-documents/entities/document-types.entity';
+import { DocumentCategory } from '../teacher-documents/entities/document-categories.entity';
 
 @Module({
 
@@ -31,7 +33,9 @@ import { ExperienceRange } from './entities/experience-ranges.entity';
 			EducationalInstitutionList,
 			SubjectCategory,
 			Subject,
-			ExperienceRange
+			ExperienceRange,
+			DocumentType,
+			DocumentCategory
 		]),
 		JwtModule
 	],

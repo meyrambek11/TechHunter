@@ -14,6 +14,8 @@ import { ReferencesService } from './references.service';
 import { WorkSchedule } from './entities/work-schedules.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
 import { ExperienceRange } from './entities/experience-ranges.entity';
+import { DocumentType } from '../teacher-documents/entities/document-types.entity';
+import { DocumentCategory } from '../teacher-documents/entities/document-categories.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('references')
@@ -87,5 +89,15 @@ export class ReferencesController{
     @Get('experience-ranges')
     getAllExperienceRanges(): Promise<ExperienceRange[]>{
     	return this.referencesService.getAllExperienceRanges();
+    }
+
+    @Get('document-types')
+    getAllDocumentTypes(): Promise<DocumentType[]>{
+        return this.referencesService.getAllDocumentTypes();
+    }
+
+    @Get('document-categories')
+    getAllDocumentCategories(): Promise<DocumentCategory[]>{
+        return this.referencesService.getAllDocumentCategories();
     }
 }

@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { SubjectCategory } from './subject-categories.entity';
-import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
 
 @Entity('subjects')
 export class Subject{
@@ -12,7 +11,4 @@ export class Subject{
 
     @ManyToOne(() => SubjectCategory, (subjectCategory) => subjectCategory.subjects)
 	subjectCategory: SubjectCategory;
-
-    @OneToMany(() => TeacherDocument, (teacherDocument) => teacherDocument.subject)
-    teacherDocuments: TeacherDocument[];
 }

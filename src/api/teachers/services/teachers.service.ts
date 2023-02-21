@@ -61,7 +61,7 @@ export class TeachersService{
 
 		if(!teacher)
 			throw new HttpException(
-				`Teacher with user id: ${user.id} does not exist in stock`,
+				`Teacher with user id: ${user.id} does not exist`,
 				HttpStatus.BAD_REQUEST
 			);
 
@@ -97,7 +97,7 @@ export class TeachersService{
 		const teacher = await this.teacherRepository.findOneBy({ user: { id: user.id } });
 		if(!teacher)
 			throw new HttpException(
-				`Teacher with user id: ${user.id} does not exist in stock`,
+				`Teacher with user id: ${user.id} does not exist`,
 				HttpStatus.BAD_REQUEST
 			);
 		await this.teacherRepository.save({

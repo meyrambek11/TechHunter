@@ -1,6 +1,7 @@
-import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Currency } from '../references/entities/currencies.entity';
 import { Role } from '../roles/roles.entity';
+import { DocumentOrder } from '../teacher-documents/entities/document-orders.entity';
 
 @Entity('users')
 export class User{
@@ -27,6 +28,9 @@ export class User{
 
 	@ManyToOne(() => Role, (role) => role.users, { nullable: false })
 	role: Role;
+
+	@OneToMany(() => DocumentOrder, (documentOrder) => documentOrder.user)
+    purchasedDocuments: DocumentOrder[];
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;
