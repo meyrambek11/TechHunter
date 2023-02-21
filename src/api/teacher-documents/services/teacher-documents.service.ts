@@ -30,4 +30,11 @@ export class TeacherDocumentsService{
     async getOne(id: string, user: UserMetadata){
 
     }
+
+    async getOneForExternal(id: string, relations: string[]): Promise<TeacherDocument>{
+        return await this.teacherDocumentsRepository.findOne({
+            where: {id},
+            relations
+        })
+    }
 }

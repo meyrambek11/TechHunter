@@ -7,6 +7,7 @@ import { UsersService } from './users.service';
 import { RolesModule } from '../roles/roles.module';
 import { TeachersModule } from '../teachers/teachers.module';
 import { EducationalInstitutionsModule } from '../educational-institutions/educational-institutions.module';
+import { TeacherDocumentsModule } from '../teacher-documents/teacher-documents.module';
 
 @Module({
 	controllers: [UsersController],
@@ -16,7 +17,8 @@ import { EducationalInstitutionsModule } from '../educational-institutions/educa
 		ReferencesModule,
 		RolesModule,
 		TeachersModule,
-		EducationalInstitutionsModule
+		EducationalInstitutionsModule,
+		TeacherDocumentsModule
 	],
 	exports: [UsersService]
 })

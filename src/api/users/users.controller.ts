@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { Body, Get, Patch, UseGuards } from '@nestjs/common/decorators';
+import { Body, Get, Patch, Post, UseGuards } from '@nestjs/common/decorators';
 import { UpdateUserDto } from './users.dto';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
@@ -35,5 +35,10 @@ export class UsersController{
 		@Body('balance') balance: number
 	): Promise<User>{
 		return this.usersService.increaseBalance(user, balance);
+	}
+
+	@Post('buy-document')
+	buyDocument(@UserInfo() user: UserMetadata, documentId: string){
+		return this.usersService.buyDocument(user, documentId);
 	}
 }

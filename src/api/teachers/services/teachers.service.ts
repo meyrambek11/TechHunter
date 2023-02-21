@@ -86,10 +86,10 @@ export class TeachersService{
 		
 	}
 
-	async getOneForExternal(id: string): Promise<Teacher>{
+	async getOneForExternal(id: string, relations: string[]): Promise<Teacher>{
 		return await this.teacherRepository.findOne({
 			where: { id },
-			relations: ['experienceRange']
+			relations
 		});
 	}
 
@@ -105,6 +105,10 @@ export class TeachersService{
 			...payload
 		});
 		return this.getOneByUser(user.id);
+	}
+
+	async getTeacherUser(teacherId: string){
+		const teacher = await this.teacherRepository
 	}
 
 	filteringReceivedData(

@@ -80,7 +80,7 @@ export class EducationalInstitutionsService{
 				HttpStatus.BAD_REQUEST
 			);
 
-		const teacher = await this.teachersService.getOneForExternal(teacherId);
+		const teacher = await this.teachersService.getOneForExternal(teacherId, ['experienceRange']);
 		if(!teacher)
 			throw new HttpException(
 				`Teacher with user id: ${user.id} does not exist`,
@@ -90,9 +90,10 @@ export class EducationalInstitutionsService{
 		if((await this.educationalInstitutionOrdersService.getOneByTeacherAndEducationInstitution(teacher.id, user.id))) return { success: true };
 
 		const experienceRange = await this.referencesService.getExperienceRangeWithPrice(teacher.experienceRange.code);
+		const costumer = await this.usersService.getOne(user.id);
 
 		console.log(`Educational institution with name: ${educationalInstitution.name} want to buy teacher with id: ${teacher.id}`);
-		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(user, experienceRange.price, experienceRange.currency))) return { success: false };
+		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(costumer, experienceRange.price, experienceRange.currency))) return { success: false };
 
 		await this.educationalInstitutionOrdersService.store({
 			teacher,

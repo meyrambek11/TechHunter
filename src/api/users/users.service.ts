@@ -12,6 +12,9 @@ import { UserMetadata } from 'src/common/types/userMetadata';
 import { Teacher } from '../teachers/entities/teachers.entity';
 import { EducationalInstitutionsService } from '../educational-institutions/services/educational-institutions.service';
 import { EducationalInstitution } from '../educational-institutions/entities/educational-institutions.entity';
+import { TeacherDocumentsService } from '../teacher-documents/services/teacher-documents.service';
+import { BuyingLogicClass } from '../buying.logic';
+import { DocumentOrdersService } from '../teacher-documents/services/document-orders.service';
 
 @Injectable()
 export class UsersService{
@@ -22,7 +25,9 @@ export class UsersService{
 		private rolesService: RolesService,
 		private teachersService: TeachersService,
 		private educationalInstitutionsService: EducationalInstitutionsService,
-		@InjectDataSource() private dataSource: DataSource
+		@InjectDataSource() private dataSource: DataSource,
+		private teacherDocumentsService: TeacherDocumentsService,
+		private documentOrdersService: DocumentOrdersService
 	){}
     
 	async store(payload: StoreUserDto): Promise<User>{
@@ -124,5 +129,35 @@ export class UsersService{
 			await manager.save(User, { id: user.id, balance: (userAccount.balance - balance) });
 		});
 		return this.getOne(user.id);
+	}
+
+	async buyDocument(user: UserMetadata, documentId: string){
+		const document = await this.teacherDocumentsService.getOneForExternal(documentId, ['currency', 'teacher']);
+
+		if(!document)
+			throw new HttpException(
+				`Document with id: ${user.id} does not exist`,
+				HttpStatus.BAD_REQUEST
+			);
+		
+		if((await this.documentOrdersService.getOneByUserAndDocument(user.id, document.id))) return {success: true};
+
+		const costumer = await this.getOne(user.id);
+
+		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(costumer, document.price, document.currency)))
+			return {success: false};
+		
+		const teacher = await this.teachersService.getOneForExternal(document.teacher.id, ['user'])
+		await this.documentOrdersService.store({
+			user: costumer,
+			document,
+			price: document.price,
+			currency: document.currency
+		})
+		await this.decreaseBalance(costumer, document.price);
+		await this.increaseBalance(teacher.user, document.price);
+
+		return {success: true};
+		
 	}
 }
