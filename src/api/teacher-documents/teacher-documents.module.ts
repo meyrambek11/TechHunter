@@ -7,6 +7,7 @@ import { DocumentType } from './entities/document-types.entity';
 import { DocumentCategory } from './entities/document-categories.entity';
 import { TeachersModule } from '../teachers/teachers.module';
 import { DocumentOrdersService } from './services/document-orders.service';
+import { DocumentOrder } from './entities/document-orders.entity';
 
 @Module({
     controllers: [TeacherDocumentsController],
@@ -15,7 +16,8 @@ import { DocumentOrdersService } from './services/document-orders.service';
 		TypeOrmModule.forFeature([
 			TeacherDocument,
 			DocumentType,
-            DocumentCategory
+            DocumentCategory,
+			DocumentOrder
 		]),
 		TeachersModule
 	],

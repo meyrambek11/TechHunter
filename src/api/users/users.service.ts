@@ -120,6 +120,7 @@ export class UsersService{
 		await this.dataSource.transaction(async manager => {
 			await manager.save(User, { id: user.id, balance: (userAccount.balance + balance) });
 		});
+		console.log(`Increase balance of user with id: ${user.id} to ${balance}`)
 		return this.getOne(user.id);
 	}
 
@@ -128,6 +129,7 @@ export class UsersService{
 		await this.dataSource.transaction(async manager => {
 			await manager.save(User, { id: user.id, balance: (userAccount.balance - balance) });
 		});
+		console.log(`Decrease balance of user with id: ${user.id} to ${balance}`)
 		return this.getOne(user.id);
 	}
 
@@ -143,11 +145,11 @@ export class UsersService{
 		if((await this.documentOrdersService.getOneByUserAndDocument(user.id, document.id))) return {success: true};
 
 		const costumer = await this.getOne(user.id);
-
+		console.log(`User with email: ${costumer.email} want to buy document with id: ${document.id}`);
 		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(costumer, document.price, document.currency)))
 			return {success: false};
 		
-		const teacher = await this.teachersService.getOneForExternal(document.teacher.id, ['user'])
+		const teacher = await this.teachersService.getOneForExternal(document.teacher.id, ['user']);
 		await this.documentOrdersService.store({
 			user: costumer,
 			document,
@@ -157,7 +159,8 @@ export class UsersService{
 		await this.decreaseBalance(costumer, document.price);
 		await this.increaseBalance(teacher.user, document.price);
 
+		console.log(`User with email: ${costumer.email} buy document with id: ${document.id} for price: ${document.price}`);
+
 		return {success: true};
-		
 	}
 }

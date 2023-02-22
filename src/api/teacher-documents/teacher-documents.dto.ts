@@ -55,3 +55,26 @@ export class TeacherDocumentStoreDto{
     @IsOptional()
     category?: DocumentCategory;
 }
+
+
+export class GetAllDocumentsQueryDto{
+    @IsOptional()
+    @IsString()
+    educationalInstitutionCategoryIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    typeIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    categoryIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    languageIds: string = null;
+
+    @IsOptional()
+    @IsString()
+    subjectIds: string = null;
+}

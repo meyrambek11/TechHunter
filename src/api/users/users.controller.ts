@@ -38,7 +38,7 @@ export class UsersController{
 	}
 
 	@Post('buy-document')
-	buyDocument(@UserInfo() user: UserMetadata, documentId: string){
+	buyDocument(@UserInfo() user: UserMetadata, @Body('documentId') documentId: string){
 		return this.usersService.buyDocument(user, documentId);
 	}
 }
