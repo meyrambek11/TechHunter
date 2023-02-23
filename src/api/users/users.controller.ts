@@ -8,6 +8,7 @@ import { UserInfo } from 'src/common/decorators/user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
 import { Teacher } from '../teachers/entities/teachers.entity';
 import { EducationalInstitution } from '../educational-institutions/entities/educational-institutions.entity';
+import { DocumentOrder } from '../teacher-documents/entities/document-orders.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -33,12 +34,20 @@ export class UsersController{
 	topUpBalance(
 		@UserInfo() user: UserMetadata,
 		@Body('balance') balance: number
-	): Promise<User>{
+	): Promise<{success: boolean}>{
 		return this.usersService.increaseBalance(user, balance);
 	}
 
 	@Post('buy-document')
-	buyDocument(@UserInfo() user: UserMetadata, @Body('documentId') documentId: string){
+	buyDocument(
+		@UserInfo() user: UserMetadata, 
+		@Body('documentId') documentId: string
+	): Promise<{success: boolean}>{
 		return this.usersService.buyDocument(user, documentId);
+	}
+
+	@Get('bought-documents')
+	getBoughtDocuments(@UserInfo() user: UserMetadata): Promise<DocumentOrder[]>{
+		return this.usersService.getBoughtDocuments(user);
 	}
 }

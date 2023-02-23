@@ -34,4 +34,11 @@ export class DocumentOrdersService{
 		});
 		return {success: true};
     }
+
+    async getManyByUser(userId: string): Promise<DocumentOrder[]>{
+        return await this.documentOrderRepository.find({
+            where: {user: {id: userId}},
+            select: ['document']
+        })
+    }
 }

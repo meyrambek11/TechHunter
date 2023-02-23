@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query, UseGuards } from "@nestjs/common";
 import { UserInfo } from "src/common/decorators/user.decorator";
 import { UserMetadata } from "src/common/types/userMetadata";
 import { GetAllDocumentsQueryDto, TeacherDocumentStoreDto } from "./teacher-documents.dto";
@@ -22,6 +22,14 @@ export class TeacherDocumentsController{
     @Get()
     getAll(@Query() query: GetAllDocumentsQueryDto){
         return this.teacherDocumentsService.getAll(query);
+    }
+
+    @Get(':id')
+    getOne(
+        @UserInfo() user: UserMetadata,
+        @Param('id', ParseUUIDPipe) id: string
+    ): Promise<TeacherDocument>{
+        return this.teacherDocumentsService.getOne(id, user);
     }
 
 }

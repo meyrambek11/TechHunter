@@ -18,7 +18,7 @@ export class DocumentOrder{
 	user: User;
 
     @ManyToOne(() => TeacherDocument, (document) => document.orders)
-	document: User;
+	document: TeacherDocument;
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;

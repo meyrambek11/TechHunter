@@ -29,4 +29,5 @@ export class TeachersController{
     ): Promise<Teacher & {info: Partial<Teacher>}>{
     	return this.teachersService.getOne(id, user);
     }
+
 }

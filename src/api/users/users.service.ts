@@ -15,6 +15,7 @@ import { EducationalInstitution } from '../educational-institutions/entities/edu
 import { TeacherDocumentsService } from '../teacher-documents/services/teacher-documents.service';
 import { BuyingLogicClass } from '../buying.logic';
 import { DocumentOrdersService } from '../teacher-documents/services/document-orders.service';
+import { DocumentOrder } from '../teacher-documents/entities/document-orders.entity';
 
 @Injectable()
 export class UsersService{
@@ -115,25 +116,25 @@ export class UsersService{
 		return this.getAccount(user);
 	}
 
-	async increaseBalance(user: UserMetadata, balance: number): Promise<User>{
+	async increaseBalance(user: UserMetadata, balance: number): Promise<{success: boolean}>{
 		const userAccount = await this.getOne(user.id);
 		await this.dataSource.transaction(async manager => {
 			await manager.save(User, { id: user.id, balance: (userAccount.balance + balance) });
 		});
 		console.log(`Increase balance of user with id: ${user.id} to ${balance}`)
-		return this.getOne(user.id);
+		return {success: true}
 	}
 
-	async decreaseBalance(user: UserMetadata, balance: number): Promise<User>{
+	async decreaseBalance(user: UserMetadata, balance: number): Promise<{success: boolean}>{
 		const userAccount = await this.getOne(user.id);
 		await this.dataSource.transaction(async manager => {
 			await manager.save(User, { id: user.id, balance: (userAccount.balance - balance) });
 		});
 		console.log(`Decrease balance of user with id: ${user.id} to ${balance}`)
-		return this.getOne(user.id);
+		return {success: true}
 	}
 
-	async buyDocument(user: UserMetadata, documentId: string){
+	async buyDocument(user: UserMetadata, documentId: string): Promise<{success: boolean}>{
 		const document = await this.teacherDocumentsService.getOneForExternal(documentId, ['currency', 'teacher']);
 
 		if(!document)
@@ -142,6 +143,8 @@ export class UsersService{
 				HttpStatus.BAD_REQUEST
 			);
 		
+		const author = await this.teachersService.getOneForExternal(document.teacher.id, ['user']);
+		if(author.user.id == user.id) return {success: true};
 		if((await this.documentOrdersService.getOneByUserAndDocument(user.id, document.id))) return {success: true};
 
 		const costumer = await this.getOne(user.id);
@@ -149,7 +152,6 @@ export class UsersService{
 		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(costumer, document.price, document.currency)))
 			return {success: false};
 		
-		const teacher = await this.teachersService.getOneForExternal(document.teacher.id, ['user']);
 		await this.documentOrdersService.store({
 			user: costumer,
 			document,
@@ -157,10 +159,19 @@ export class UsersService{
 			currency: document.currency
 		})
 		await this.decreaseBalance(costumer, document.price);
-		await this.increaseBalance(teacher.user, document.price);
+		await this.increaseBalance(author.user, document.price);
 
 		console.log(`User with email: ${costumer.email} buy document with id: ${document.id} for price: ${document.price}`);
 
 		return {success: true};
+	}
+
+	async getBoughtDocuments(user: UserMetadata): Promise<DocumentOrder[]>{
+		const costumer = await this.userRepository.findOne({
+			where: {id: user.id},
+			select: ['id'],
+			relations: ['purchasedDocuments', 'purchasedDocuments.document']
+		})
+		return costumer.purchasedDocuments;
 	}
 }
