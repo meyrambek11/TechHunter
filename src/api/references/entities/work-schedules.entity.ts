@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Vacancy } from 'src/api/vacancies/entities/vacancies.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum WorkScheduleCodes{
     FULL_DAY = 'full_day',
@@ -17,4 +18,7 @@ export class WorkSchedule{
 
     @Column({ nullable: false })
     code: WorkScheduleCodes;
+
+    @OneToMany(() => Vacancy, (vacancy) => vacancy.workSchedule)
+    vacancies: Vacancy[];
 }

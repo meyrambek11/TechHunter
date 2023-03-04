@@ -3,6 +3,7 @@ import { ExperienceRange } from 'src/api/references/entities/experience-ranges.e
 import { DocumentOrder } from 'src/api/teacher-documents/entities/document-orders.entity';
 import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
 import { User } from 'src/api/users/users.entity';
+import { Vacancy } from 'src/api/vacancies/entities/vacancies.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum CurrencyCodes {
@@ -36,4 +37,7 @@ export class Currency{
 
     @OneToMany(() => DocumentOrder, (documentOrder) => documentOrder.currency)
     documentOrders: DocumentOrder[];
+
+    @OneToMany(() => Vacancy, (vacancy) => vacancy.currency)
+    vacancies: Vacancy[];
 }

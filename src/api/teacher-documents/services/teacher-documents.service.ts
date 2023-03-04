@@ -103,4 +103,18 @@ export class TeacherDocumentsService{
         return documentsQuery;
     }
 
+    async getOwnUploadedDocumentsAsTeacher(user: UserMetadata): Promise<TeacherDocument[]>{
+        const teacher = await this.teachersService.getOneByUser(user.id);
+        if(!teacher)
+            throw new HttpException(
+                `Teacher with user id: ${user.id} does not exist`,
+                HttpStatus.BAD_REQUEST
+            );
+        
+        return await this.teacherDocumentsRepository.find({
+            where: {teacher: {id: teacher.id}},
+            relations: ['currency', 'language', 'educationalInstitutionCategory', 'type', 'category', 'subjects']
+        })
+    }
+
 }

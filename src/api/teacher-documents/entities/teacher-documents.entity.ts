@@ -31,7 +31,7 @@ export class TeacherDocument{
     @Column({nullable: false, default: true})
     viewProfileAccess: boolean;
 
-    @ManyToOne(() => Currency, (currency) => currency.teacherDocuments)
+    @ManyToOne(() => Currency, (currency) => currency.teacherDocuments, {nullable: false})
 	currency: Currency;
 
     @ManyToMany(() => Subject)

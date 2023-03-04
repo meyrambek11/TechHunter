@@ -10,6 +10,7 @@ import { City } from 'src/api/references/entities/cities.entity';
 import { Subject } from 'src/api/references/entities/subjects.entity';
 import { TeacherBasket } from 'src/api/teachers-basket/entities/teacher-baskets.entity';
 import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
+import { VacancyRequest } from 'src/api/vacancies/entities/vacancy-requests.entity';
 
 @Entity('teachers')
 export class Teacher{
@@ -58,7 +59,7 @@ export class Teacher{
     @ManyToOne(() => EducationDegree, (educationDegree) => educationDegree.teacher)
 	educationDegree: EducationDegree;
 
-    @ManyToOne(() => ExperienceRange, (experienceRange) => experienceRange.teacher, { nullable: false })
+    @ManyToOne(() => ExperienceRange, (experienceRange) => experienceRange.teachers, { nullable: false })
 	experienceRange: ExperienceRange;
 
     @OneToMany(() => EducationalInstitutionOrder, (educationalInstitutionOrder) => educationalInstitutionOrder.teacher)
@@ -75,6 +76,9 @@ export class Teacher{
 
     @OneToMany(() => TeacherDocument, (document) => document.teacher)
     documents: TeacherDocument[];
+
+    @OneToMany(() => VacancyRequest, (vacancyRequest) => vacancyRequest.teacher)
+    vacancyRequests: VacancyRequest[];
 
     @ManyToMany(() => Subject)
 	@JoinTable({

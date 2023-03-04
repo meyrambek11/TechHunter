@@ -1,6 +1,7 @@
 import { Currency } from 'src/api/references/entities/currencies.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Teacher } from '../../teachers/entities/teachers.entity';
+import { Vacancy } from 'src/api/vacancies/entities/vacancies.entity';
 
 export enum ExperienceRangeCodes{
     WITHOUT_EXPERIENCE = 'without_experience',
@@ -26,9 +27,12 @@ export class ExperienceRange{
     @Column({ nullable: false })
     code: ExperienceRangeCodes;
 
-    @ManyToOne(() => Currency, (currency) => currency.experienceRanges)
+    @ManyToOne(() => Currency, (currency) => currency.experienceRanges, {nullable: false})
 	currency: Currency;
 
     @OneToMany(() => Teacher, (teacher) => teacher.experienceRange)
-    teacher: Teacher[];
+    teachers: Teacher[];
+
+    @OneToMany(() => Vacancy, (vacancy) => vacancy.experienceRange)
+    vacancies: Vacancy[];
 }

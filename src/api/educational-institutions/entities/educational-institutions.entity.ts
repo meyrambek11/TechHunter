@@ -4,6 +4,8 @@ import { EducationalInstitutionCategory } from 'src/api/references/entities/educ
 import { User } from 'src/api/users/users.entity';
 import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { EducationalInstitutionOrder } from './educational-institution-orders.entity';
+import { Vacancy } from 'src/api/vacancies/entities/vacancies.entity';
+import { VacancyRequest } from 'src/api/vacancies/entities/vacancy-requests.entity';
 
 @Entity('educational_institutions')
 export class EducationalInstitution{
@@ -36,6 +38,9 @@ export class EducationalInstitution{
 
     @OneToMany(() => EducationalInstitutionOrder, (educationalInstitutionOrder) => educationalInstitutionOrder.educationalInstitution)
     educationalInstitutionOrders: EducationalInstitutionOrder[];
+
+    @OneToMany(() => Vacancy, (vacancy) => vacancy.educationInstitution)
+    vacancies: Vacancy[];
 
     @Column({ type: 'timestamp', default: () => 'NOW()' })
 	created_at: Date;

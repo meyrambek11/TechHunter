@@ -11,7 +11,7 @@ export class DocumentOrder{
     @Column({nullable: false})
     price: number;
 
-    @ManyToOne(() => Currency, (currency) => currency.documentOrders)
+    @ManyToOne(() => Currency, (currency) => currency.documentOrders, {nullable: false})
 	currency: Currency;
 
     @ManyToOne(() => User, (user) => user.purchasedDocuments)

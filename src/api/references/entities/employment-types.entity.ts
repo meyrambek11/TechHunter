@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Vacancy } from 'src/api/vacancies/entities/vacancies.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum EmploymentTypeCodes{
     FULL = 'full',
@@ -17,4 +18,7 @@ export class EmploymentType{
 
     @Column({ nullable: false })
     code: EmploymentTypeCodes;
+
+    @OneToMany(() => Vacancy, (vacancy) => vacancy.employmentType)
+    vacancies: Vacancy[];
 }

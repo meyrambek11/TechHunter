@@ -32,4 +32,9 @@ export class TeacherDocumentsController{
         return this.teacherDocumentsService.getOne(id, user);
     }
 
+    @Get('teacher/uploaded')
+    getOwnUploadedDocumentsAsTeacher(@UserInfo() user: UserMetadata): Promise<TeacherDocument[]>{
+        return this.teacherDocumentsService.getOwnUploadedDocumentsAsTeacher(user);
+    }
+
 }
