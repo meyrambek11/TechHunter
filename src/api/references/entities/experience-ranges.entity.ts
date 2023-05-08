@@ -21,7 +21,7 @@ export class ExperienceRange{
     @Column({ nullable: false })
     description: string;
 
-    @Column({ nullable: false, default: 0, select: false })
+    @Column({ nullable: false, default: 0})
     price: number;
 
     @Column({ nullable: false })
