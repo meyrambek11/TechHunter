@@ -5,6 +5,7 @@ import { EducationalInstitutionsService } from '../educational-institutions/serv
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vacancy } from './vacancies.entity';
 import { Repository, SelectQueryBuilder } from 'typeorm';
+import { RoleCodes } from '../roles/roles.entity';
 
 @Injectable()
 export class VacancyService{
@@ -44,12 +45,25 @@ export class VacancyService{
 		return vacancyQuery.getMany();
 	}
 
-    async getOne(id: string): Promise<Vacancy>{
-        return await this.vacancyRepository.findOne({
-            where: {id},
-            relations: ['currency', 'educationalInstitution', 'experienceRange', 'employmentType', 'workSchedule', 'subjectCategory']
-        })
-    }
+	async getMany(user: UserMetadata): Promise<Vacancy[]>{
+		if(user.role.code == RoleCodes.TEACHER)
+			throw new HttpException(
+				'Forbidden resourse',
+				HttpStatus.FORBIDDEN
+			);
+		
+		return await this.vacancyRepository.find({
+			where: { educationalInstitution: { user: { id: user.id } }, isActive: true },
+			relations: ['currency', 'educationalInstitution', 'experienceRange', 'employmentType', 'workSchedule', 'subjectCategory']
+		});
+	}
+
+	async getOne(id: string): Promise<Vacancy>{
+		return await this.vacancyRepository.findOne({
+			where: { id },
+			relations: ['currency', 'educationalInstitution', 'experienceRange', 'employmentType', 'workSchedule', 'subjectCategory']
+		});
+	}
 
 	async notActivate(user: UserMetadata, id: string): Promise<{success: boolean}>{
 		const educationalInstitution = await this.educationalInstitutionService.getOneByUser(user.id);
@@ -69,10 +83,10 @@ export class VacancyService{
 	): SelectQueryBuilder<Vacancy> {
 
 		if (query.fromSalary)
-			vacancyQuery.andWhere('task.salary >= :from', { from: query.fromSalary });
+			vacancyQuery.andWhere('vacancy.salary >= :from', { from: query.fromSalary });
     
 		if (query.toSalary)
-			vacancyQuery.andWhere('task.salary <= :to', { to: query.toSalary });
+			vacancyQuery.andWhere('vacancy.salary <= :to', { to: query.toSalary });
     
 		if (query.employmentTypeId)
 			vacancyQuery.andWhere('employmentType.id = :employmentTypeId', {

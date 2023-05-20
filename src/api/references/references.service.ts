@@ -124,19 +124,35 @@ export class ReferencesService{
 	}
 
 	async getSubjectCategoriesByEducationInstitutionCategory(educationalInstitutionCategoryId: string): Promise<SubjectCategory[]>{
-		return await this.subjectCategoryRepository.find({
+		const categories = await this.subjectCategoryRepository.find({
 			where: {
 				educationalInstitutionCategory: { id: educationalInstitutionCategoryId }
-			}
+			},
+			relations: ['subjects']
 		});
+
+		for(const category of categories){
+			for(const subject of category.subjects){
+				subject['label'] = subject.name;
+				subject['value'] = subject.id;
+			}
+		}
+		return categories;
 	}
 
 	async getSubjectsByCategory(categoryId: string): Promise<Subject[]>{
-		return await this.subjectRepository.find({
+		const subjects = await this.subjectRepository.find({
 			where: {
 				subjectCategory: { id: categoryId },
 			}, 
 		});
+
+		for(const subject of subjects){
+			subject['label'] = subject.name;
+			subject['value'] = subject.id;
+		}
+
+		return subjects;
 	}
 
 	async getAllEmploymentTypes(): Promise<EmploymentType[]>{

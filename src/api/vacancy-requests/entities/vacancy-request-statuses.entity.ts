@@ -2,9 +2,8 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { VacancyRequest } from './vacancy-requests.entity';
 
 export enum VacancyRequestStatusCodes{
-    ACTIVE = 'active',
     REJECT = 'reject',
-    COMPLETED = 'completed',
+    COMPLETED = 'complited',
     NEW = 'new'
 }
 
@@ -19,6 +18,6 @@ export class VacancyRequestStatus{
     @Column({ nullable: false })
     code: VacancyRequestStatusCodes;
   
-    @OneToMany(() => VacancyRequest, (vacancyRequest) => vacancyRequest.vacancyRequestStatus)
+    @OneToMany(() => VacancyRequest, (vacancyRequest) => vacancyRequest.status)
     vacancyRequests: VacancyRequest[];
 }

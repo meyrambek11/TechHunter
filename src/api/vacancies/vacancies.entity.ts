@@ -36,7 +36,7 @@ export class Vacancy{
 	@Column({ nullable: false, default: true })
 	isActive: boolean;
 
-    @ManyToOne(() => EducationalInstitution, (educationInstitution) => educationInstitution.vacancies, { nullable: true })
+    @ManyToOne(() => EducationalInstitution, (educationInstitution) => educationInstitution.vacancies, { nullable: false })
 	educationalInstitution: EducationalInstitution;
 
     @ManyToOne(() => ExperienceRange, (experienceRange) => experienceRange.vacancies, { nullable: false })

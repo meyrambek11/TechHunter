@@ -24,9 +24,14 @@ export class VacancyController{
     	return this.vacancyService.getAll(query);
     }
 
+    @Get('own')
+    getMany(@UserInfo() user: UserMetadata): Promise<Vacancy[]>{
+    	return this.vacancyService.getMany(user);
+    }
+
     @Get('/:id')
     getOne(@Param('id', ParseUUIDPipe) id: string): Promise<Vacancy>{
-        return this.vacancyService.getOne(id);
+    	return this.vacancyService.getOne(id);
     }
 
     @Delete('/:id')

@@ -13,6 +13,7 @@ import { EducationalInstitutionsModule } from '../educational-institutions/educa
 		EducationalInstitutionsModule
 	],
 	controllers: [VacancyController],
-	providers: [VacancyService]
+	providers: [VacancyService],
+	exports: [VacancyService]
 })
 export class VacanciesModule {}

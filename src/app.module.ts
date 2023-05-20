@@ -13,6 +13,7 @@ import { VacanciesModule } from './api/vacancies/vacancies.module';
 import { AdminModule } from './api/admin/admin.module';
 import { TeacherDocumentsModule } from './api/teacher-documents/teacher-documents.module';
 import { FilesModule } from './api/files/files.module';
+import { VacancyRequestsModule } from './api/vacancy-requests/vacancy-requests.module';
 
 @Module({
 	imports: [
@@ -35,6 +36,7 @@ import { FilesModule } from './api/files/files.module';
 		VacanciesModule,
 		AdminModule,
 		FilesModule,
+		VacancyRequestsModule
 	],
 })
 export class AppModule {}
