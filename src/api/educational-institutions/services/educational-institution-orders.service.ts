@@ -31,7 +31,7 @@ export class EducationalInstitutionOrdersService{
 				educationalInstitution: payload.educationalInstitution
 			});
 		});
-		return {success: true};
+		return { success: true };
 	}
     
 	async getByEducationalInstitution(educationalInstitutionId: string): Promise<EducationalInstitutionOrder[]>{

@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { TeacherDocument } from "./teacher-documents.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { TeacherDocument } from './teacher-documents.entity';
 
 @Entity('document_types')
 export class DocumentType{

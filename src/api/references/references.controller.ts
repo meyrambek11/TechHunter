@@ -71,9 +71,8 @@ export class ReferencesController{
     @Get('subjects/:category_id')
     getSubjectsByCategory(
         @Param('category_id', ParseUUIDPipe) categoryId: string,
-        @Query() query: GetAllQueryDto
     ): Promise<Subject[]>{
-    	return this.referencesService.getSubjectsByCategory(categoryId, query);
+    	return this.referencesService.getSubjectsByCategory(categoryId);
     }
 
     @Get('employment-types')
@@ -93,11 +92,11 @@ export class ReferencesController{
 
     @Get('document-types')
     getAllDocumentTypes(): Promise<DocumentType[]>{
-        return this.referencesService.getAllDocumentTypes();
+    	return this.referencesService.getAllDocumentTypes();
     }
 
     @Get('document-categories')
     getAllDocumentCategories(): Promise<DocumentCategory[]>{
-        return this.referencesService.getAllDocumentCategories();
+    	return this.referencesService.getAllDocumentCategories();
     }
 }

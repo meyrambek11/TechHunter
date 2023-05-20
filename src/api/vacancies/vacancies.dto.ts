@@ -1,46 +1,46 @@
-import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, isArray } from "class-validator";
-import { ExperienceRange } from "../references/entities/experience-ranges.entity";
-import { EmploymentType } from "../references/entities/employment-types.entity";
-import { WorkSchedule } from "../references/entities/work-schedules.entity";
-import { Currency } from "../references/entities/currencies.entity";
-import { Subject } from "../references/entities/subjects.entity";
+import { IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { ExperienceRange } from '../references/entities/experience-ranges.entity';
+import { EmploymentType } from '../references/entities/employment-types.entity';
+import { WorkSchedule } from '../references/entities/work-schedules.entity';
+import { Currency } from '../references/entities/currencies.entity';
+import { SubjectCategory } from '../references/entities/subject-categories.entity';
 
 export class StoreVacancyDto{
     @IsString()
-    @IsOptional()
+    @IsNotEmpty()
     name: string;
 
     @IsString()
     @IsOptional()
     description: string;
 
-    @IsArray()
-    @IsOptional()
-    subjects: Subject[];
-
     @IsObject()
-    @IsOptional()
+    @IsNotEmpty()
     experienceRange: ExperienceRange;
 
     @IsObject()
-    @IsOptional()
+    @IsNotEmpty()
     employmentType: EmploymentType;
 
     @IsObject()
-    @IsOptional()
+    @IsNotEmpty()
     workSchedule: WorkSchedule;
 
-    @IsArray()
-    @IsOptional()
-    responsibilities: string[];
+    @IsObject()
+    @IsNotEmpty()
+    subjectCategory: SubjectCategory;
 
-    @IsArray()
+    @IsString()
     @IsOptional()
-    requirements: string[];
+    responsibility: string;
 
-    @IsArray()
+    @IsString()
     @IsOptional()
-    conditions: string[];
+    requirement: string;
+
+    @IsString()
+    @IsOptional()
+    condition: string;
 
     @IsNumber()
     @IsNotEmpty()
@@ -49,4 +49,27 @@ export class StoreVacancyDto{
     @IsObject()
     @IsNotEmpty()
     currency: Currency;
+}
+
+export class GetVacanciesQuery{
+    @IsOptional()
+  fromSalary?: number = null;
+
+  @IsOptional()
+  toSalary?: number = null;
+
+  @IsOptional()
+  experienceRangeId?: string = null;
+
+  @IsOptional()
+  employmentTypeId?: string = null;
+
+  @IsOptional()
+  workScheduleId?: string = null;
+
+  @IsOptional()
+  subjectCategoryId?: string = null;
+
+  @IsOptional()
+  keyword?: string = '';
 }

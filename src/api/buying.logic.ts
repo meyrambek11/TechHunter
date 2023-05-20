@@ -1,4 +1,3 @@
-import { UserMetadata } from 'src/common/types/userMetadata';
 import { Currency } from './references/entities/currencies.entity';
 import { User } from './users/users.entity';
 

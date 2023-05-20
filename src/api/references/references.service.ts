@@ -131,13 +131,11 @@ export class ReferencesService{
 		});
 	}
 
-	async getSubjectsByCategory(categoryId: string, query: GetAllQueryDto): Promise<Subject[]>{
+	async getSubjectsByCategory(categoryId: string): Promise<Subject[]>{
 		return await this.subjectRepository.find({
 			where: {
 				subjectCategory: { id: categoryId },
-				name: ILike(query.keyword)
-			},
-			order: { name: 'ASC' }
+			}, 
 		});
 	}
 
@@ -181,7 +179,7 @@ export class ReferencesService{
 	}
 
 	async getAllDocumentTypes(): Promise<DocumentType[]>{
-		return await this.documentTypeRepository.find()
+		return await this.documentTypeRepository.find();
 	}
 
 	async getAllDocumentCategories(): Promise<DocumentCategory[]>{

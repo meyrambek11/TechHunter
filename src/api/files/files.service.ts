@@ -1,6 +1,6 @@
-import { Injectable, ServiceUnavailableException } from "@nestjs/common";
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { ManagedUpload } from "aws-sdk/clients/s3";
+import { ManagedUpload } from 'aws-sdk/clients/s3';
 import { v4 as uuid } from 'uuid';
 
 @Injectable()
@@ -8,11 +8,11 @@ export class FilesService{
 	private s3 = new S3();
 
 	
-    async upload(file: Express.Multer.File): Promise<{url: string}>{
-        const uploadedFile = await this.s3.upload({
+	async upload(file: Express.Multer.File): Promise<{url: string}>{
+		const uploadedFile = await this.s3.upload({
 			Bucket: process.env.BUCKET_NAME,
 			Body: file.buffer,
-			ACL: "public-read",
+			ACL: 'public-read',
 			ContentType: file.mimetype,
 			Key: `${uuid()}-${file.originalname}`
 		}).promise().then(
@@ -24,6 +24,6 @@ export class FilesService{
 				throw new ServiceUnavailableException(reason.message);
 			}
 		);
-		return {url: uploadedFile.Location}
-    }
+		return { url: uploadedFile.Location };
+	}
 }

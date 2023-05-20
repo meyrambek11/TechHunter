@@ -121,8 +121,8 @@ export class UsersService{
 		await this.dataSource.transaction(async manager => {
 			await manager.save(User, { id: user.id, balance: (userAccount.balance + balance) });
 		});
-		console.log(`Increase balance of user with id: ${user.id} to ${balance}`)
-		return {success: true}
+		console.log(`Increase balance of user with id: ${user.id} to ${balance}`);
+		return { success: true };
 	}
 
 	async decreaseBalance(user: UserMetadata, balance: number): Promise<{success: boolean}>{
@@ -130,8 +130,8 @@ export class UsersService{
 		await this.dataSource.transaction(async manager => {
 			await manager.save(User, { id: user.id, balance: (userAccount.balance - balance) });
 		});
-		console.log(`Decrease balance of user with id: ${user.id} to ${balance}`)
-		return {success: true}
+		console.log(`Decrease balance of user with id: ${user.id} to ${balance}`);
+		return { success: true };
 	}
 
 	async buyDocument(user: UserMetadata, documentId: string): Promise<{success: boolean}>{
@@ -144,34 +144,34 @@ export class UsersService{
 			);
 		
 		const author = await this.teachersService.getOneForExternal(document.teacher.id, ['user']);
-		if(author.user.id == user.id) return {success: true};
-		if((await this.documentOrdersService.getOneByUserAndDocument(user.id, document.id))) return {success: true};
+		if(author.user.id == user.id) return { success: true };
+		if((await this.documentOrdersService.getOneByUserAndDocument(user.id, document.id))) return { success: true };
 
 		const costumer = await this.getOne(user.id);
 		console.log(`User with email: ${costumer.email} want to buy document with id: ${document.id}`);
 		if(!((new BuyingLogicClass()).checkHasUserEnoughMoney(costumer, document.price, document.currency)))
-			return {success: false};
+			return { success: false };
 		
 		await this.documentOrdersService.store({
 			user: costumer,
 			document,
 			price: document.price,
 			currency: document.currency
-		})
+		});
 		await this.decreaseBalance(costumer, document.price);
 		await this.increaseBalance(author.user, document.price);
 
 		console.log(`User with email: ${costumer.email} buy document with id: ${document.id} for price: ${document.price}`);
 
-		return {success: true};
+		return { success: true };
 	}
 
 	async getBoughtDocuments(user: UserMetadata): Promise<DocumentOrder[]>{
 		const costumer = await this.userRepository.findOne({
-			where: {id: user.id},
+			where: { id: user.id },
 			select: ['id'],
 			relations: ['purchasedDocuments', 'purchasedDocuments.document']
-		})
+		});
 		return costumer.purchasedDocuments;
 	}
 }

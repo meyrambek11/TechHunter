@@ -10,13 +10,13 @@ import { DocumentOrdersService } from './services/document-orders.service';
 import { DocumentOrder } from './entities/document-orders.entity';
 
 @Module({
-    controllers: [TeacherDocumentsController],
-    providers: [TeacherDocumentsService, DocumentOrdersService],
-    imports: [
+	controllers: [TeacherDocumentsController],
+	providers: [TeacherDocumentsService, DocumentOrdersService],
+	imports: [
 		TypeOrmModule.forFeature([
 			TeacherDocument,
 			DocumentType,
-            DocumentCategory,
+			DocumentCategory,
 			DocumentOrder
 		]),
 		TeachersModule

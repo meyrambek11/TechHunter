@@ -100,7 +100,7 @@ export class EducationalInstitutionsService{
 			educationalInstitution,
 			price: experienceRange.price,
 			currency: experienceRange.currency
-		})
+		});
 		await this.usersService.decreaseBalance(user, experienceRange.price);
 		await this.adminService.increaseBalanceOfAdmin(experienceRange.price);
 		

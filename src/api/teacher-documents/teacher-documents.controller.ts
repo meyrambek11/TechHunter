@@ -1,27 +1,27 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query, UseGuards } from "@nestjs/common";
-import { UserInfo } from "src/common/decorators/user.decorator";
-import { UserMetadata } from "src/common/types/userMetadata";
-import { GetAllDocumentsQueryDto, TeacherDocumentStoreDto } from "./teacher-documents.dto";
-import { TeacherDocumentsService } from "./services/teacher-documents.service";
-import { TeacherDocument } from "./entities/teacher-documents.entity";
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guards";
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query, UseGuards } from '@nestjs/common';
+import { UserInfo } from 'src/common/decorators/user.decorator';
+import { UserMetadata } from 'src/common/types/userMetadata';
+import { GetAllDocumentsQueryDto, TeacherDocumentStoreDto } from './teacher-documents.dto';
+import { TeacherDocumentsService } from './services/teacher-documents.service';
+import { TeacherDocument } from './entities/teacher-documents.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guards';
 
 @UseGuards(JwtAuthGuard)
 @Controller('documents')
 export class TeacherDocumentsController{
-    constructor(private teacherDocumentsService: TeacherDocumentsService) {}
+	constructor(private teacherDocumentsService: TeacherDocumentsService) {}
 
     @Post()
-    store(
+	store(
         @Body() payload: TeacherDocumentStoreDto,
         @UserInfo() user: UserMetadata
-    ): Promise<TeacherDocument>{
-        return this.teacherDocumentsService.store(payload, user);
-    }
+	): Promise<TeacherDocument>{
+		return this.teacherDocumentsService.store(payload, user);
+	}
 
     @Get()
-    getAll(@Query() query: GetAllDocumentsQueryDto){
-        return this.teacherDocumentsService.getAll(query);
+    getAll(@Query() query: GetAllDocumentsQueryDto): Promise<TeacherDocument[]>{
+    	return this.teacherDocumentsService.getAll(query);
     }
 
     @Get(':id')
@@ -29,12 +29,12 @@ export class TeacherDocumentsController{
         @UserInfo() user: UserMetadata,
         @Param('id', ParseUUIDPipe) id: string
     ): Promise<TeacherDocument>{
-        return this.teacherDocumentsService.getOne(id, user);
+    	return this.teacherDocumentsService.getOne(id, user);
     }
 
     @Get('teacher/uploaded')
     getOwnUploadedDocumentsAsTeacher(@UserInfo() user: UserMetadata): Promise<TeacherDocument[]>{
-        return this.teacherDocumentsService.getOwnUploadedDocumentsAsTeacher(user);
+    	return this.teacherDocumentsService.getOwnUploadedDocumentsAsTeacher(user);
     }
 
 }

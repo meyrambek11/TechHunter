@@ -1,17 +1,17 @@
-import { Currency } from "src/api/references/entities/currencies.entity";
-import { User } from "src/api/users/users.entity";
-import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { TeacherDocument } from "./teacher-documents.entity";
+import { Currency } from 'src/api/references/entities/currencies.entity';
+import { User } from 'src/api/users/users.entity';
+import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { TeacherDocument } from './teacher-documents.entity';
 
 @Entity('document_orders')
 export class DocumentOrder{
     @PrimaryGeneratedColumn('uuid')
 	id: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     price: number;
 
-    @ManyToOne(() => Currency, (currency) => currency.documentOrders, {nullable: false})
+    @ManyToOne(() => Currency, (currency) => currency.documentOrders, { nullable: false })
 	currency: Currency;
 
     @ManyToOne(() => User, (user) => user.purchasedDocuments)

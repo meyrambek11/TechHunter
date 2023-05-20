@@ -1,4 +1,4 @@
-import { Vacancy } from 'src/api/vacancies/entities/vacancies.entity';
+import { Vacancy } from 'src/api/vacancies/vacancies.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum WorkScheduleCodes{

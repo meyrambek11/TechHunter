@@ -1,10 +1,10 @@
-import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from "class-validator";
-import { EducationalInstitutionCategory } from "../references/entities/educational-institution-categories.entity";
-import { Subject } from "../references/entities/subjects.entity";
-import { Currency } from "../references/entities/currencies.entity";
-import { Language } from "../references/entities/languages.entity";
-import { DocumentType } from "./entities/document-types.entity";
-import { DocumentCategory } from "./entities/document-categories.entity";
+import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { EducationalInstitutionCategory } from '../references/entities/educational-institution-categories.entity';
+import { Subject } from '../references/entities/subjects.entity';
+import { Currency } from '../references/entities/currencies.entity';
+import { Language } from '../references/entities/languages.entity';
+import { DocumentType } from './entities/document-types.entity';
+import { DocumentCategory } from './entities/document-categories.entity';
 
 export class TeacherDocumentStoreDto{
     @IsString()

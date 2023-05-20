@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { VacancyRequest } from "./vacancy-requests.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { VacancyRequest } from './vacancy-requests.entity';
 
 export enum VacancyRequestStatusCodes{
     ACTIVE = 'active',

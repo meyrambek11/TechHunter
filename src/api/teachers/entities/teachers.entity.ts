@@ -10,7 +10,7 @@ import { City } from 'src/api/references/entities/cities.entity';
 import { Subject } from 'src/api/references/entities/subjects.entity';
 import { TeacherBasket } from 'src/api/teachers-basket/entities/teacher-baskets.entity';
 import { TeacherDocument } from 'src/api/teacher-documents/entities/teacher-documents.entity';
-import { VacancyRequest } from 'src/api/vacancies/entities/vacancy-requests.entity';
+import { VacancyRequest } from 'src/api/vacancy-requests/entities/vacancy-requests.entity';
 
 @Entity('teachers')
 export class Teacher{

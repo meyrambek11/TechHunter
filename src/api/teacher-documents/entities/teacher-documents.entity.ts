@@ -1,12 +1,12 @@
-import { EducationalInstitutionCategory } from "src/api/references/entities/educational-institution-categories.entity";
-import { Language } from "src/api/references/entities/languages.entity";
-import { Teacher } from "src/api/teachers/entities/teachers.entity";
-import { Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { DocumentType } from "./document-types.entity";
-import { DocumentCategory } from "./document-categories.entity";
-import { Currency } from "src/api/references/entities/currencies.entity";
-import { Subject } from "src/api/references/entities/subjects.entity";
-import { DocumentOrder } from "./document-orders.entity";
+import { EducationalInstitutionCategory } from 'src/api/references/entities/educational-institution-categories.entity';
+import { Language } from 'src/api/references/entities/languages.entity';
+import { Teacher } from 'src/api/teachers/entities/teachers.entity';
+import { Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { DocumentType } from './document-types.entity';
+import { DocumentCategory } from './document-categories.entity';
+import { Currency } from 'src/api/references/entities/currencies.entity';
+import { Subject } from 'src/api/references/entities/subjects.entity';
+import { DocumentOrder } from './document-orders.entity';
 
 @Entity('teacher_documents')
 export class TeacherDocument{
@@ -19,19 +19,19 @@ export class TeacherDocument{
     @Column({ nullable: true })
     description: string;
 
-    @Column({nullable: false})
+    @Column({ nullable: false })
     price: number;
 
-    @Column({nullable: false, select: false})
+    @Column({ nullable: false, select: false })
     url: string;
 
-    @Column({nullable: false, default: true})
+    @Column({ nullable: false, default: true })
     saleAccess: boolean;
 
-    @Column({nullable: false, default: true})
+    @Column({ nullable: false, default: true })
     viewProfileAccess: boolean;
 
-    @ManyToOne(() => Currency, (currency) => currency.teacherDocuments, {nullable: false})
+    @ManyToOne(() => Currency, (currency) => currency.teacherDocuments, { nullable: false })
 	currency: Currency;
 
     @ManyToMany(() => Subject)

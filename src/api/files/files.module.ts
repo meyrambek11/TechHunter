@@ -4,10 +4,10 @@ import { FilesService } from './files.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [
-        ConfigModule.forRoot(),
-    ],
-    controllers: [FilesController],
-    providers: [FilesService]
+	imports: [
+		ConfigModule.forRoot(),
+	],
+	controllers: [FilesController],
+	providers: [FilesService]
 })
 export class FilesModule {}

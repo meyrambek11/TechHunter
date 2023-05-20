@@ -107,10 +107,6 @@ export class TeachersService{
 		return this.getOneByUser(user.id);
 	}
 
-	async getTeacherUser(teacherId: string){
-		const teacher = await this.teacherRepository
-	}
-
 	filteringReceivedData(
 		teachersQuery: SelectQueryBuilder<Teacher>, 
 		query: TeacherQueryDto
