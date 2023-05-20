@@ -24,6 +24,11 @@ export class VacancyController{
     	return this.vacancyService.getAll(query);
     }
 
+    @Get('/:id')
+    getOne(@Param('id', ParseUUIDPipe) id: string): Promise<Vacancy>{
+        return this.vacancyService.getOne(id);
+    }
+
     @Delete('/:id')
     notActivate(
         @UserInfo() user: UserMetadata,
