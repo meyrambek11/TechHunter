@@ -8,7 +8,7 @@ import { EducationalInstitutionsModule } from '../educational-institutions/educa
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([
-			Vacancy,
+			Vacancy
 		]),
 		EducationalInstitutionsModule
 	],

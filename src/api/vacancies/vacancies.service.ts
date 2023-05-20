@@ -17,8 +17,6 @@ export class VacancyService{
 	async store(user: UserMetadata, payload: StoreVacancyDto): Promise<Vacancy>{
 		const educationalInstitution = await this.educationalInstitutionService.getOneByUser(user.id);
 
-		console.log(educationalInstitution);
-
 		if(!educationalInstitution)
 			throw new HttpException(
 				`Educational institution with user id: ${user.id} does not exist`,
@@ -45,6 +43,13 @@ export class VacancyService{
 		vacancyQuery = this.filteringReceivedData(vacancyQuery, query);
 		return vacancyQuery.getMany();
 	}
+
+    async getOne(id: string): Promise<Vacancy>{
+        return await this.vacancyRepository.findOne({
+            where: {id},
+            relations: ['currency', 'educationalInstitution', 'experienceRange', 'employmentType', 'workSchedule', 'subjectCategory']
+        })
+    }
 
 	async notActivate(user: UserMetadata, id: string): Promise<{success: boolean}>{
 		const educationalInstitution = await this.educationalInstitutionService.getOneByUser(user.id);
