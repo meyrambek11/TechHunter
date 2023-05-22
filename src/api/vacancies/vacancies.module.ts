@@ -4,13 +4,15 @@ import { VacancyService } from './vacancies.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vacancy } from './vacancies.entity';
 import { EducationalInstitutionsModule } from '../educational-institutions/educational-institutions.module';
+import { TeachersModule } from '../teachers/teachers.module';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([
 			Vacancy
 		]),
-		EducationalInstitutionsModule
+		EducationalInstitutionsModule,
+		TeachersModule
 	],
 	controllers: [VacancyController],
 	providers: [VacancyService],

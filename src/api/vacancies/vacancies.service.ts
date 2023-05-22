@@ -6,11 +6,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Vacancy } from './vacancies.entity';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { RoleCodes } from '../roles/roles.entity';
+import { TeachersService } from '../teachers/services/teachers.service';
+import { VacancyRequestStatusCodes } from '../vacancy-requests/entities/vacancy-request-statuses.entity';
 
 @Injectable()
 export class VacancyService{
 	constructor(
         private educationalInstitutionService: EducationalInstitutionsService,
+		private teacherService: TeachersService,
         @InjectRepository(Vacancy)
         private vacancyRepository: Repository<Vacancy>
 	){}
@@ -63,6 +66,33 @@ export class VacancyService{
 			where: { id },
 			relations: ['currency', 'educationalInstitution', 'experienceRange', 'employmentType', 'workSchedule', 'subjectCategory']
 		});
+	}
+
+	async getOneWithResponse(id: string, user: UserMetadata): Promise<Vacancy>{
+		const vacancy = await this.vacancyRepository.findOne({
+			where: { id },
+			relations: ['currency', 'educationalInstitution', 'experienceRange', 'employmentType', 'workSchedule', 'subjectCategory', 'vacancyRequests', 'vacancyRequests.teacher', 'vacancyRequests.status']
+		});
+
+		vacancy['isResponse'] = false;
+		vacancy['responseCount'] = vacancy.vacancyRequests.length;
+
+		const teacher = await this.teacherService.getOneByUser(user.id);
+
+		if(!teacher){
+			delete vacancy.vacancyRequests;
+			return vacancy;
+		}
+
+		for(const response of vacancy.vacancyRequests){
+			if(response.teacher.id == teacher.id && (response.status.code == VacancyRequestStatusCodes.NEW || response.status.code == VacancyRequestStatusCodes.COMPLETED)){
+				vacancy['isResponse'] = true;
+				break;
+			}
+		}
+
+		delete vacancy.vacancyRequests;
+		return vacancy;
 	}
 
 	async notActivate(user: UserMetadata, id: string): Promise<{success: boolean}>{

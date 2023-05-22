@@ -30,8 +30,8 @@ export class VacancyController{
     }
 
     @Get('/:id')
-    getOne(@Param('id', ParseUUIDPipe) id: string): Promise<Vacancy>{
-    	return this.vacancyService.getOne(id);
+    getOne(@Param('id', ParseUUIDPipe) id: string, @UserInfo() user: UserMetadata): Promise<Vacancy>{
+    	return this.vacancyService.getOneWithResponse(id, user);
     }
 
     @Delete('/:id')
